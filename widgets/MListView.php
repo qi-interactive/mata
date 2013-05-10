@@ -16,10 +16,11 @@ class MListView extends CListView {
 
     public $template = "{sorter}<div class='list-view standard-list'>{items}</div>{pager}";
     public $pager = array('class' => 'mata.widgets.pagers.InfinitePager');
-    
+
     public function run() {
         $this->renderFilter();
         $this->renderListSelection();
+
         parent::run();
     }
 
@@ -34,12 +35,12 @@ class MListView extends CListView {
         ajaxUpdateTimeout = setTimeout(function () {
             $.fn.yiiListView.update(
                 '$this->id',
-                {data: ajaxRequest,  url: '/user/admin'}
+                {data: ajaxRequest,  url: '$this->ajaxUrl'}
             )
         }, 300);
     });"
         );
-        echo CHtml::textField("filter", (isset($_GET[$renderFilterId])) ? $_GET[$renderFilterId] : '', array('id' => $renderFilterId, "placeholder" => "Search"));
+        echo CHtml::textField("filter", (isset($_GET[$renderFilterId])) ? $_GET[$renderFilterId] : '', array('id' => $renderFilterId, "placeholder" => "Search", "class" => "filter"));
     }
 
     private function renderListSelection() {
@@ -51,15 +52,25 @@ class MListView extends CListView {
     <h4>Selection</h4>
     <p class="label"></p>
     <div class="actions">
-        <a onclick="$.fn.selection('delete')"  href="javascript:void(0)">
+        <a class='removeBtn'  href="javascript:void(0)">
             <img src="/images/layout/icons/trash-icon.png" />
         </a>
-        <a onclick="$.fn.selection('cancelSelection')" href="javascript:void(0)">
+        <a class='cancelSelectionBtn' href="javascript:void(0)">
             <img src="/images/layout/icons/stop-icon2.png" />
         </a>
     </div>
 </div>
 EOT;
+    }
+
+    public function registerClientScript() {
+        parent::registerClientScript();
+
+        $this->baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('mata.widgets.assets') . '/listView', false, -1, YII_DEBUG);
+
+        $cs = Yii::app()->getClientScript();
+        $cs->registerScriptFile($this->baseScriptUrl . '/mlistview.js', CClientScript::POS_END);
+        $cs->registerScript(__CLASS__.'#'.$this->id,"jQuery('#$this->id').mListView();");
     }
 
 }

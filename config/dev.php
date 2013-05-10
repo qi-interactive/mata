@@ -22,6 +22,10 @@ return array(
             "tableProfileFields" => "userprofilefield",
             'returnUrl' => "/",
             'captcha' => array('registration' => false)
+        ),
+        "media" => array(
+            "class" => "mata.modules.media.MediaModule",
+            "baseMediaPath" => "http://media.icodesign.com/"
         )
     ),
     'components' => array(

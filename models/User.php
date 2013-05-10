@@ -32,13 +32,6 @@ class User extends MataActiveRecord {
         return parent::model($className);
     }
 
-    public function behaviors() {
-        return array(
-            'modelLabel' => array(
-                'class' => 'mata.behaviors.ModelLabelBehavior'
-        ));
-    }
-
     /**
      * @return string the associated database table name
      */
@@ -226,6 +219,10 @@ class User extends MataActiveRecord {
     
     public function getLabel() {
         return $this->profile->FirstName . " " . $this->profile->LastName;
+    }
+    
+    public function getSortableAttributes() {
+        return array("username", 'profile.FirstName', 'profile.LastName', 'lastvisit_at');
     }
 
 }

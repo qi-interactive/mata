@@ -7,12 +7,12 @@
             <!--<li id="side-menu-content"><a href='javascript:void(0)' onclick="showSideMenu('content')"><img src='/images/layout/icons/note-icon.png' /></a></li>-->
             <li id="side-menu-profiles"><a href='javascript:void(0)' onclick="showSideMenu('profiles')"><img src='/images/layout/icons/user-<?php echo $this->user->Sex ?>-icon.png' /></a></li>
             <!--<li id="side-menu-forms"><a href='#'><img src='/images/layout/icons/texting-icon.png' /></a></li>-->
-            <!--<li id="side-menu-settings"><a href='#'><img src='/images/layout/icons/settings-icon.png' /></a></li>-->
+            <li id="side-menu-settings"><a href='javascript:void(0)' onclick="showSideMenu('settings')"><img src='/images/layout/icons/settings-icon.png' /></a></li>
             <!--<li id="side-menu-help"><a href='#'><img src='/images/layout/icons/loudspeaker-icon.png' /></a></li>-->
         </ul>
 
         <footer>
-            <a id="project-name" href='javascript:void(0)' onclick='x()'><?php echo $this->user->project->Name ?></a>
+            <a id="project-name" href='javascript:void(0)' onclick='mata.switchProject()'><?php echo $this->user->project->Name ?></a>
             <a href="/user/logout">You are <?php echo $this->user->FirstName . " " . $this->user->LastName ?></a>
         </footer>
     </div>
@@ -31,8 +31,20 @@
         <ul>
             <li><a href='/user/admin/update/id/<?php echo $this->user->getId() ?>'><img src="/images/layout/icons/creditcard-icon.png" />Content Blocks</a></li>
             <li><a href='/user/admin'><img src="/images/layout/icons/world-icon.png" />Forms</a></li>
+            
             <li><a href='/user/admin'><img src="/images/layout/icons/world-icon.png" />Posts</a></li>
 
+        </ul>
+
+    </div>
+    <div id="sub-menu-settings" class="sub-menu">
+        <h2>Settings</h2>
+        <p>Lorem ipsum dolor sit amet, consectuter adupiscig dig.</p>
+        <ul>
+            <li><a href='/client/client'><img src="/images/layout/icons/case-icon.png" />Clients</a></li>
+            <li><a href='/contentBlock/contentBlock'><img src="/images/layout/icons/new-window-icon.png" />Content block</a></li>
+            <li><a href='/project/project'><img src="/images/layout/icons/macbook-icon.png" />Projects</a></li>
+            <li><a href='/media/media'><img src="/images/layout/icons/image-icon.png" />Media</a></li>
         </ul>
 
     </div>
@@ -49,6 +61,7 @@ $this->widget("application.modules.touchstone.widgets.touchstoneWidget.Touchston
 
 
 <script>
+
                 $(window).ready(function() {
                     $("#side-menu-dashboard a").trigger("click");
                     // Requires jQuery!
@@ -90,68 +103,6 @@ $this->widget("application.modules.touchstone.widgets.touchstoneWidget.Touchston
                         }
 
                     });
-                }
-
-                function x() {
-                    var overlay = $("<div class='screen-overlay animated' />")
-                    $("body").append(overlay)
-                    overlay.transition({opacity: 0.5});
-
-
-                    $.ajax("/mata/home/getProjectsSelector").success(function(data) {
-
-                        var wrapper = $("<div class='dialog-box' id='project-selector' />");
-                        wrapper.append("<h2>Select Project</h2>");
-                        wrapper.append(data)
-                        $("body").append(wrapper);
-
-                        $("#project-selector").transition({
-                            padding: "20px",
-                            opacity: 1,
-                            "margin-left": "-245px",
-                            "margin-top": "-15px"
-                        });
-
-                        $("#project-selector").find(".multioption-element").on("click", function() {
-                            var projectId = $(this).attr("data-project-id");
-                            $.ajax("/mata/home/setProject", {
-                                data: {
-                                    projectId: projectId
-                                }
-                            }).success(function(data) {
-                                $("#project-name").html(data.Name);
-                                hideOverlay()
-                            });
-                        })
-
-                        $(document).bind("keyup.screen-overlay", function(e) {
-                            if (e.keyCode == 27) {
-                                hideOverlay();
-                                e.stopPropagation();
-                            }
-
-                        });
-                    })
-
-                    function hideOverlay() {
-                        $(".dialog-box").last().transition({
-                            padding: "15px",
-                            opacity: 0,
-                            "margin-left": "-240px",
-                            "margin-top": "-10px"
-
-                        }, function() {
-                            $(this).remove();
-                        });
-
-                        $(".screen-overlay").last().transition({
-                            opacity: 0
-                        }, function() {
-                            $(this).remove();
-                        })
-
-                        $(document).unbind("keyup.screen-overlay");
-                    }
                 }
 
                 function hideSubmenu() {
