@@ -1,6 +1,6 @@
 <?php
 
-class RegistrationController extends BaseCMSController {
+class RegistrationController extends MataModuleController {
 
     public $defaultAction = 'registration';
 
@@ -49,6 +49,10 @@ class RegistrationController extends BaseCMSController {
                         UserModule::sendMail($model->email, UserModule::t("You registered from {site_name}", array('{site_name}' => Yii::app()->name)), UserModule::t("Please activate you account go to {activation_url}", array('{activation_url}' => $activation_url)));
                     }
 
+
+                    Yii::app()->eventLog->record(Yii::app()->user->FirstName . " " . Yii::app()->user->LastName . " added " .
+                            $model->profile->FirstName . " " . $model->profile->LastName);
+
                     if ((Yii::app()->controller->module->loginNotActiv || (Yii::app()->controller->module->activeAfterRegister && Yii::app()->controller->module->sendActivationMail == false)) && Yii::app()->controller->module->autoLogin) {
                         $identity = new UserIdentity($model->username, $soucePassword);
                         $identity->authenticate();
@@ -72,6 +76,10 @@ class RegistrationController extends BaseCMSController {
                 $profile->validate();
         }
         $this->render('/user/registration', array('model' => $model, 'profile' => $profile));
+    }
+
+    public function getModel() {
+        return User::model();
     }
 
 }

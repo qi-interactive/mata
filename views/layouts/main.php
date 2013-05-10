@@ -15,10 +15,17 @@
         <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script type="text/javascript" src="/js/lib/query.transit.min.js"></script>
 
-
-        <script type="text/javascript" src="/js/behaviors/retinaImages.js"></script>
-        <script type="text/javascript" src="/js/behaviors/flashMessage.js"></script>
         <script type="text/javascript" src="/js/main.js"></script>
+        <script type="text/javascript" src="/js/behaviors/retinaImages.js"></script>
+        <script type="text/javascript" src="/js/behaviors/dialogBox.js"></script>
+        <script type="text/javascript" src="/js/behaviors/flashMessage.js"></script>
+        <script type="text/javascript" src="/js/behaviors/multioption.js"></script>
+
+
+        <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+
 
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
     </head>
