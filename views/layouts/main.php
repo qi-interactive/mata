@@ -8,18 +8,12 @@
 
         <link rel="shortcut icon" href="/favicon.png" />
 
-        <link rel="stylesheet" type="text/css" href="/css/reset.css" />
-        <link rel="stylesheet" type="text/css" href="/css/layout.css" />
         <link rel="stylesheet" type="text/css" href="/css/main.css" />
 
         <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script type="text/javascript" src="/js/lib/query.transit.min.js"></script>
 
         <script type="text/javascript" src="/js/main.js"></script>
-        <script type="text/javascript" src="/js/behaviors/retinaImages.js"></script>
-        <script type="text/javascript" src="/js/behaviors/dialogBox.js"></script>
-        <script type="text/javascript" src="/js/behaviors/flashMessage.js"></script>
-        <script type="text/javascript" src="/js/behaviors/multioption.js"></script>
 
 
         <!--[if lt IE 9]>
