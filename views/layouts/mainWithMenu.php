@@ -53,13 +53,6 @@
 <iframe frameborder="0" id='content-container'>
 </iframe>
 
-<?php
-$this->widget("application.modules.touchstone.widgets.touchstoneWidget.TouchstoneWidget", array(
-    "scenario" => "User module testing"
-));
-?>
-
-
 <script>
 
                 $(window).ready(function() {

@@ -11,7 +11,8 @@
  * @author wichura
  */
 class MataController extends BaseAuthorizedController {
-     
+      public $layout = "mainWithMenu";
+      
 }
 
 ?>

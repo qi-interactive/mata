@@ -1,6 +1,6 @@
 <?php
 
-class HomeController extends BaseAuthorizedController {
+class HomeController extends MataController {
 
     public function actionIndex() {
         $this->pageTitle = Yii::app()->name . " - Dashboard";
@@ -15,7 +15,6 @@ class HomeController extends BaseAuthorizedController {
     }
 
     public function actionGetProjectsSelector() {
-        
         $this->widget("mata.widgets.formControllers.projectSelector.ProjectSelector");
     }
 

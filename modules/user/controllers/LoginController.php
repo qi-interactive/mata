@@ -10,8 +10,6 @@ class LoginController extends CController {
      */
     public function actionLogin() {
         if (Yii::app()->user->isGuest) {
-
-            Yii::app()->getModule("touchstone")->addPoints("User module testing");
             $model = new UserLogin;
             // collect user input data
             if (isset($_POST['UserLogin'])) {
@@ -19,8 +17,6 @@ class LoginController extends CController {
                 // validate user input and redirect to previous page if valid
                 if ($model->validate()) {
                     $this->lastViset();
-                    Yii::app()->eventLog->record(Yii::app()->user->FirstName . " " . Yii::app()->user->LastName . " logged into " . 
-                            Yii::app()->user->project->Name);
                     if (Yii::app()->getBaseUrl() . "/index.php" === Yii::app()->user->returnUrl)
                         $this->redirect(Yii::app()->controller->module->returnUrl);
                     else

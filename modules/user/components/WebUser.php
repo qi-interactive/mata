@@ -55,8 +55,6 @@ class WebUser extends CWebUser {
         foreach ($userAttributes as $attrName => $attrValue) {
             $this->setState($attrName, $attrValue);
         }
-
-        $this->setProject();
     }
 
     public function model($id = 0) {
@@ -78,30 +76,4 @@ class WebUser extends CWebUser {
     public function isAdmin() {
         return Yii::app()->getModule('user')->isAdmin();
     }
-
-    public function setProject($projectId = null) {
-
-        $project = null;
-        if ($projectId != null) {
-            $project = Project::model()->findByPk($projectId);
-        } else {
-
-            // get last one used
-            if (($lastProjectSelected = Yii::app()->keyValue->get("last-selected-project-" . $this->id)) != null)
-                $project = Project::model()->findByPk($lastProjectSelected);
-
-            // get any the user is assigned to
-            if ($project == null)
-                $project = Project::model()->find();
-        }
-
-        if ($project == null)
-            throw new CHttpException("No project set for userId: " . $this->id);
-
-        Yii::app()->keyValue->set("last-selected-project-" . $this->id, $project->Id);
-
-
-        $this->setState("project", $project);
-    }
-
 }
