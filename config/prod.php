@@ -6,6 +6,7 @@ return array(
     'import' => array(
         'mata.models.base.*',
         'mata.models.*',
+         'mata.modules.base.*',
         'mata.controllers.base.*',
         'mata.widgets.base.*',
         "mata.helpers.*"

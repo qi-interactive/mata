@@ -1,6 +1,6 @@
 <?php
 
-class MediaModule extends MMataModule {
+class MataDashboardModule extends MMataModule {
 
     public $baseMediaPath = "/";
 
@@ -9,9 +9,6 @@ class MediaModule extends MMataModule {
         // you may place code here to customize the module or the application
         // import the module-level models and components
         $this->setImport(array(
-            'media.models.*',
-            'media.components.*',
-            'media.extensions.yii-plupload',
         ));
     }
 
@@ -27,7 +24,7 @@ class MediaModule extends MMataModule {
 
     public function getNav() {
         return array(
-            "Media" => "/media/media"
+            "Dashboard" => "/mataDashboard/mataDashboard"
         );
     }
 

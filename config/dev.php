@@ -6,6 +6,7 @@ return array(
     'import' => array(
         'mata.models.base.*',
         'mata.models.*',
+        'mata.modules.base.*',
         'mata.controllers.base.*',
         'mata.widgets.base.*',
         "mata.helpers.*"
@@ -26,6 +27,9 @@ return array(
         "media" => array(
             "class" => "mata.modules.media.MediaModule",
             "baseMediaPath" => "http://media.icodesign.com/"
+        ),
+        "mataDashboard" => array(
+             "class" => "mata.modules.mataDashboard.MataDashboardModule",
         )
     ),
     'components' => array(

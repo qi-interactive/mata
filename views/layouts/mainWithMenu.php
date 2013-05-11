@@ -3,50 +3,59 @@
 <div id="side-menu-container">
     <div id="side-menu">
         <ul>
-            <li id="side-menu-dashboard"><a onclick="hideSubmenu()" href='/mata/dashboard'><img src='/images/layout/icons/map-icon.png' /></a></li>
-            <!--<li id="side-menu-content"><a href='javascript:void(0)' onclick="showSideMenu('content')"><img src='/images/layout/icons/note-icon.png' /></a></li>-->
-            <li id="side-menu-profiles"><a href='javascript:void(0)' onclick="showSideMenu('profiles')"><img src='/images/layout/icons/user-<?php echo $this->user->Sex ?>-icon.png' /></a></li>
-            <!--<li id="side-menu-forms"><a href='#'><img src='/images/layout/icons/texting-icon.png' /></a></li>-->
-            <li id="side-menu-settings"><a href='javascript:void(0)' onclick="showSideMenu('settings')"><img src='/images/layout/icons/settings-icon.png' /></a></li>
-            <!--<li id="side-menu-help"><a href='#'><img src='/images/layout/icons/loudspeaker-icon.png' /></a></li>-->
+
+
+            <?php
+            foreach (MataModuleGroup::model()->with("modules")->findAll() as $moduleGroup):
+                if (count($moduleGroup->modules) == 1 && count(Yii::app()->getModule($moduleGroup->modules[0]->Name)->getNav()) == 1):
+                    ?>
+                    <li><a href="<?php echo current(Yii::app()->getModule($moduleGroup->modules[0]->Name)->getNav()) ?>"><img src="<?php echo $moduleGroup->IconPath ?>" /></a></li>
+
+                    <?php
+                    continue;
+                endif;
+                ?>
+
+                <li><a href="javascript:void(0)" data-sub-nav="<?php echo strtolower($moduleGroup->Name) ?>" ><img src="<?php echo $moduleGroup->IconPath ?>" /></a></li>
+                <div id="sub-menu-<?php echo strtolower($moduleGroup->Name) ?>" class="sub-menu">
+                    <h2>Accounts</h2>
+                    <p>Lorem ipsum dolor sit amet, consectuter adupiscig dig.</p>
+                    <ul>
+                        <?php foreach ($moduleGroup->modules as $module): ?>
+
+
+                            <?php
+                            foreach (Yii::app()->getModule($module->Name)->getNav() as $label => $url):
+                                $assetURL = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias($module->Name) . DIRECTORY_SEPARATOR . "assets", false, -1, YII_DEBUG);
+                                echo "<li><a href='$url'>" .
+                                CHtml::image($assetURL . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "small-icon.png") .
+                                $label .
+                                "</a></li>";
+                            endforeach;
+                            ?>
+                            <?php
+                        endforeach;
+                        ?>
+                    </ul>
+                </div>
+                <?php
+            endforeach;
+            ?>
         </ul>
+
+
+<!--            <li id="side-menu-dashboard"><a onclick="hideSubmenu()" href='/mata/dashboard'><img src='/images/layout/icons/map-icon.png' /></a></li>
+            <li id="side-menu-content"><a href='javascript:void(0)' onclick="showSideMenu('content')"><img src='/images/layout/icons/note-icon.png' /></a></li>
+            <li id="side-menu-profiles"><a href='javascript:void(0)' onclick="showSideMenu('profiles')"><img src='/images/layout/icons/user-<?php echo $this->user->Sex ?>-icon.png' /></a></li>
+            <li id="side-menu-forms"><a href='#'><img src='/images/layout/icons/texting-icon.png' /></a></li>
+            <li id="side-menu-settings"><a href='javascript:void(0)' onclick="showSideMenu('settings')"><img src='/images/layout/icons/settings-icon.png' /></a></li>
+            <li id="side-menu-help"><a href='#'><img src='/images/layout/icons/loudspeaker-icon.png' /></a></li>
+        </ul>-->
 
         <footer>
             <a id="project-name" href='javascript:void(0)' onclick='mata.switchProject()'><?php echo $this->user->project->Name ?></a>
             <a href="/user/logout">You are <?php echo $this->user->FirstName . " " . $this->user->LastName ?></a>
         </footer>
-    </div>
-    <div id="sub-menu-profiles" class="sub-menu">
-        <h2>Accounts</h2>
-        <p>Lorem ipsum dolor sit amet, consectuter adupiscig dig.</p>
-        <ul>
-            <li><a href='/user/admin/update/id/<?php echo $this->user->getId() ?>'><img src="/images/layout/icons/creditcard-icon.png" />Your account</a></li>
-            <li><a href='/user/admin'><img src="/images/layout/icons/world-icon.png" />Manage others</a></li>
-        </ul>
-
-    </div>
-    <div id="sub-menu-content" class="sub-menu">
-        <h2>Content</h2>
-        <p>Lorem ipsum dolor sit amet, consectuter adupiscig dig.</p>
-        <ul>
-            <li><a href='/user/admin/update/id/<?php echo $this->user->getId() ?>'><img src="/images/layout/icons/creditcard-icon.png" />Content Blocks</a></li>
-            <li><a href='/user/admin'><img src="/images/layout/icons/world-icon.png" />Forms</a></li>
-            
-            <li><a href='/user/admin'><img src="/images/layout/icons/world-icon.png" />Posts</a></li>
-
-        </ul>
-
-    </div>
-    <div id="sub-menu-settings" class="sub-menu">
-        <h2>Settings</h2>
-        <p>Lorem ipsum dolor sit amet, consectuter adupiscig dig.</p>
-        <ul>
-            <li><a href='/client/client'><img src="/images/layout/icons/case-icon.png" />Clients</a></li>
-            <li><a href='/contentBlock/contentBlock'><img src="/images/layout/icons/new-window-icon.png" />Content block</a></li>
-            <li><a href='/project/project'><img src="/images/layout/icons/macbook-icon.png" />Projects</a></li>
-            <li><a href='/media/media'><img src="/images/layout/icons/image-icon.png" />Media</a></li>
-        </ul>
-
     </div>
 </div>
 
@@ -56,7 +65,7 @@
 <script>
 
                 $(window).ready(function() {
-                    $("#side-menu-dashboard a").trigger("click");
+                    $("#side-menu a").first().trigger("click");
                     // Requires jQuery!
 
                     jQuery.ajax({
@@ -72,16 +81,26 @@
 
                     $("#content-container").attr("src", $(this).attr("href"));
                     $(this).parents("ul").first().find(".active").removeClass("active")
-                    $(this).parent().first().addClass("active")
+                    $(this).parent().first().addClass("active");
+
+
+                    if ($(this).parents(".sub-menu").length == 0)
+                         hideSubmenu()
+                     
+                    if ($(this).attr("data-sub-nav") != null) {
+                        showSideMenu($(this).attr("data-sub-nav"))
+                    }
 
                     return false;
                 })
 
                 function showSideMenu(section) {
                     hideSubmenu()
-                    $("#sub-menu-" + section).transition({
+                    $("#sub-menu-" + section).addClass("active").css({
                         left: 100
-                    }).addClass("active");
+                    });
+
+                    $("#sub-menu-" + section).show();
 
                     $("#side-menu-" + section).addClass("active")
 
