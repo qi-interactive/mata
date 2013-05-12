@@ -20,6 +20,7 @@ class MataController extends BaseAuthorizedController {
         $this->mataAssetUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('mata') . DIRECTORY_SEPARATOR . "assets", false, -1, YII_DEBUG);
         $cs = Yii::app()->getClientScript();
 
+        $cs->registerScriptFile($this->mataAssetUrl . '/js/mata.js', CClientScript::POS_BEGIN);
         $cs->registerScriptFile($this->mataAssetUrl . '/js/behaviors/dialogBox.js', CClientScript::POS_BEGIN);
         $cs->registerScriptFile($this->mataAssetUrl . '/js/behaviors/flashMessage.js', CClientScript::POS_BEGIN);
         $cs->registerScriptFile($this->mataAssetUrl . '/js/behaviors/multiOption.js', CClientScript::POS_BEGIN);
