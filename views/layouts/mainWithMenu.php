@@ -8,6 +8,10 @@
             <?php
             foreach (MataModuleGroup::model()->with("modules")->findAll() as $moduleGroup):
                 $module = Yii::app()->getModule($moduleGroup->modules[0]->Name);
+
+                if ($module == null)
+                    throw new CHttpException("Could not find module by id " . $moduleGroup->modules[0]->Name);
+
                 $assetURL = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias($module->Name) . DIRECTORY_SEPARATOR . "assets", false, -1, YII_DEBUG);
                 if (count($moduleGroup->modules) == 1 && count(Yii::app()->getModule($moduleGroup->modules[0]->Name)->getNav()) == 1):
                     ?>
@@ -19,7 +23,6 @@
                     <?php
                     continue;
                 endif;
-
                 ?>
 
                 <li><a href="javascript:void(0)" data-sub-nav="<?php echo strtolower($moduleGroup->Name) ?>" >
