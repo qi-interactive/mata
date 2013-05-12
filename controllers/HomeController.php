@@ -15,7 +15,8 @@ class HomeController extends MataController {
     }
 
     public function actionGetProjectsSelector() {
-        $this->widget("mata.widgets.formControllers.projectSelector.ProjectSelector");
+        
+        $this->widget("project.widgets.projectSelector.ProjectSelector");
     }
 
 }

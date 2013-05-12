@@ -67,9 +67,8 @@
 
     <?php
     if ($model->id != $this->user->getId()):
-
         echo Html::label("Projects", false);
-        $this->widget("mata.widgets.formControllers.projectSelector.ProjectSelector", array(
+        $this->widget("project.widgets.projectSelector.ProjectSelector", array(
             "projects" => $allProjectsAvailableToTheUser,
             "activeProjects" => $activeProjectsForUser
         ));
