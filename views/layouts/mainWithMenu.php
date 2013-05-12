@@ -7,15 +7,24 @@
 
             <?php
             foreach (MataModuleGroup::model()->with("modules")->findAll() as $moduleGroup):
+                $module = Yii::app()->getModule($moduleGroup->modules[0]->Name);
+                $assetURL = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias($module->Name) . DIRECTORY_SEPARATOR . "assets", false, -1, YII_DEBUG);
                 if (count($moduleGroup->modules) == 1 && count(Yii::app()->getModule($moduleGroup->modules[0]->Name)->getNav()) == 1):
                     ?>
-                    <li><a href="<?php echo current(Yii::app()->getModule($moduleGroup->modules[0]->Name)->getNav()) ?>"><img src="<?php echo $moduleGroup->IconPath ?>" /></a></li>
+                    <li><a href="<?php echo current($module->getNav()) ?>">
+                            <?php
+                            echo CHtml::image($assetURL . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . str_replace(" ", "-", strtolower(key($module->getNav()))) . "-large-icon.png");
+                            ?>
+                        </a></li>
                     <?php
                     continue;
                 endif;
+
                 ?>
 
-                <li><a href="javascript:void(0)" data-sub-nav="<?php echo strtolower($moduleGroup->Name) ?>" ><img src="<?php echo $moduleGroup->IconPath ?>" /></a></li>
+                <li><a href="javascript:void(0)" data-sub-nav="<?php echo strtolower($moduleGroup->Name) ?>" >
+                        <?php echo CHtml::image($assetURL . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . str_replace(" ", "-", strtolower(key($module->getNav()))) . "-large-icon.png"); ?>
+                    </a></li>
                 <?php
             endforeach;
             ?>
@@ -69,70 +78,70 @@
 
 <script>
 
-            $(window).ready(function() {
-                $("#side-menu a").first().trigger("click");
-                // Requires jQuery!
+                    $(window).ready(function() {
+                        $("#side-menu a").first().trigger("click");
+                        // Requires jQuery!
 
-                jQuery.ajax({
-                    url: "http://jira.qi-interactive.com/s/en_UKevdmcy-418945332/812/4/1.2.7/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector-embededjs/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector-embededjs.js?collectorId=c33a832b",
-                    type: "get",
-                    cache: true,
-                    dataType: "script"
-                });
+                        jQuery.ajax({
+                            url: "http://jira.qi-interactive.com/s/en_UKevdmcy-418945332/812/4/1.2.7/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector-embededjs/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector-embededjs.js?collectorId=c33a832b",
+                            type: "get",
+                            cache: true,
+                            dataType: "script"
+                        });
 
-            })
-            $("#side-menu-container").find("li a").bind("click", function() {
-
-
-                $("#content-container").attr("src", $(this).attr("href"));
-                $(this).parents("ul").first().find(".active").removeClass("active")
-                $(this).parent().first().addClass("active");
+                    })
+                    $("#side-menu-container").find("li a").bind("click", function() {
 
 
-                if ($(this).parents(".sub-menu").length == 0)
-                    hideSubmenu()
+                        $("#content-container").attr("src", $(this).attr("href"));
+                        $(this).parents("ul").first().find(".active").removeClass("active")
+                        $(this).parent().first().addClass("active");
 
-                if ($(this).attr("data-sub-nav") != null) {
-                    showSideMenu($(this).attr("data-sub-nav"))
-                }
 
-                return false;
-            })
+                        if ($(this).parents(".sub-menu").length == 0)
+                            hideSubmenu()
 
-            function showSideMenu(section) {
-                hideSubmenu()
-                $("#sub-menu-" + section).addClass("active").transition({
-                    left: 100
-                });
+                        if ($(this).attr("data-sub-nav") != null) {
+                            showSideMenu($(this).attr("data-sub-nav"))
+                        }
 
-                $("#sub-menu-" + section).show();
+                        return false;
+                    })
 
-                $("#side-menu-" + section).addClass("active")
+                    function showSideMenu(section) {
+                        hideSubmenu()
+                        $("#sub-menu-" + section).addClass("active").transition({
+                            left: 100
+                        });
 
-                $("#content-container").transition({
-                    "margin-left": 321
-                });
+                        $("#sub-menu-" + section).show();
 
-                $(window).bind("keyup.sub-menu", function(e) {
-                    if (e.keyCode == 27) {
-                        hideSubmenu();
-                        e.stopPropagation();
+                        $("#side-menu-" + section).addClass("active")
+
+                        $("#content-container").transition({
+                            "margin-left": 321
+                        });
+
+                        $(window).bind("keyup.sub-menu", function(e) {
+                            if (e.keyCode == 27) {
+                                hideSubmenu();
+                                e.stopPropagation();
+                            }
+
+                        });
                     }
 
-                });
-            }
+                    function hideSubmenu() {
+                        $(".sub-menu.active").transition({
+                            left: -121
+                        }).removeClass("active")
 
-            function hideSubmenu() {
-                $(".sub-menu.active").transition({
-                    left: -121
-                }).removeClass("active")
+                        $("#content-container").transition({
+                            "margin-left": 100
+                        });
 
-                $("#content-container").transition({
-                    "margin-left": 100
-                });
-
-                $(window).unbind("keyup.sub-menu");
-            }
+                        $(window).unbind("keyup.sub-menu");
+                    }
 </script>
 
 <?php $this->endContent(); ?>
