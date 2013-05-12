@@ -47,7 +47,7 @@
                     foreach (Yii::app()->getModule($module->Name)->getNav() as $label => $url):
                         $assetURL = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias($module->Name) . DIRECTORY_SEPARATOR . "assets", false, -1, YII_DEBUG);
                         echo "<li><a href='$url'>" .
-                        CHtml::image($assetURL . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "small-icon.png") .
+                        CHtml::image($assetURL . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . str_replace(" ", "-", strtolower($label)) . "-small-icon.png") .
                         $label .
                         "</a></li>";
                     endforeach;
