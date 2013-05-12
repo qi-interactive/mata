@@ -27,6 +27,7 @@ class MataController extends BaseAuthorizedController {
         $cs->registerScriptFile($this->mataAssetUrl . '/js/behaviors/retinaImages.js', CClientScript::POS_BEGIN);
         $cs->registerCssFile($this->mataAssetUrl . '/css/reset.css');
         $cs->registerCssFile($this->mataAssetUrl . '/css/layout.css');
+        $cs->registerCssFile($this->mataAssetUrl . '/css/cmsFormContent.css');
 
         parent::filterBeforeExec($filterChain);
     }
