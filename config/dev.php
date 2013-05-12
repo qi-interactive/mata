@@ -9,7 +9,8 @@ return array(
         'mata.modules.base.*',
         'mata.controllers.base.*',
         'mata.widgets.base.*',
-        "mata.helpers.*"
+        "mata.helpers.*",
+        'mata.modules.project.models.*'
     ),
     'modules' => array(
         'user' => array(
@@ -29,7 +30,10 @@ return array(
             "baseMediaPath" => "http://media.icodesign.com/"
         ),
         "mataDashboard" => array(
-             "class" => "mata.modules.mataDashboard.MataDashboardModule",
+            "class" => "mata.modules.mataDashboard.MataDashboardModule",
+        ),
+        'project' => array(
+            "class" => "mata.modules.project.ProjectModule",
         )
     ),
     'components' => array(

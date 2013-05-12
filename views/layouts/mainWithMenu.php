@@ -18,6 +18,7 @@
                     <li><a href="<?php echo current($module->getNav()) ?>">
                             <?php
                             echo CHtml::image($assetURL . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . str_replace(" ", "-", strtolower(key($module->getNav()))) . "-large-icon.png");
+                           
                             ?>
                         </a></li>
                     <?php
@@ -26,7 +27,7 @@
                 ?>
 
                 <li><a href="javascript:void(0)" data-sub-nav="<?php echo strtolower($moduleGroup->Name) ?>" >
-                        <?php echo CHtml::image($assetURL . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . str_replace(" ", "-", strtolower(key($module->getNav()))) . "-large-icon.png"); ?>
+                      <?php  echo CHtml::image("/images/icons/" . str_replace(" ", "-", strtolower($moduleGroup->Name)) . "-large-icon.png"); ?>
                     </a></li>
                 <?php
             endforeach;
