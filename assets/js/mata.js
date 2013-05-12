@@ -1,0 +1,2 @@
+/* NAMESPACES */
+window.mata = {};
