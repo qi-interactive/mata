@@ -1,22 +1,19 @@
 <?php
 
 /**
- * This is the model class for table "matamodulegroup".
+ * This is the model class for table "projecttype".
  *
- * The followings are the available columns in table 'matamodulegroup':
- * @property integer $Id
+ * The followings are the available columns in table 'projecttype':
+ * @property string $Id
  * @property string $Name
- * @property integer $Order
- *
- * The followings are the available model relations:
- * @property Matamodule[] $matamodules
+ * @property string $Description
  */
-class MataModuleGroup extends MataActiveRecord {
+class ProjectType extends MataCMSActiveRecord {
 
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
-     * @return MataModuleGroup the static model class
+     * @return ProjectType the static model class
      */
     public static function model($className = __CLASS__) {
         return parent::model($className);
@@ -26,13 +23,7 @@ class MataModuleGroup extends MataActiveRecord {
      * @return string the associated database table name
      */
     public function tableName() {
-        return 'matamodulegroup';
-    }
-    
-    public function defaultScope() {
-        return array(
-            "order" => "`Order` ASC"
-        );
+        return 'projecttype';
     }
 
     /**
@@ -42,12 +33,11 @@ class MataModuleGroup extends MataActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('Name, Order', 'required'),
-            array('Order', 'numerical', 'integerOnly' => true),
-            array('Name', 'length', 'max' => 64),
+            array('Description', 'required'),
+            array('Name', 'length', 'max' => 255),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('Id, Name, Order', 'safe', 'on' => 'search'),
+            array('Id, Name, Description', 'safe', 'on' => 'search'),
         );
     }
 
@@ -58,7 +48,6 @@ class MataModuleGroup extends MataActiveRecord {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'modules' => array(self::HAS_MANY, 'Matamodule', 'MataModuleGroupId'),
         );
     }
 
@@ -69,7 +58,7 @@ class MataModuleGroup extends MataActiveRecord {
         return array(
             'Id' => 'ID',
             'Name' => 'Name',
-            'Order' => 'Order',
+            'Description' => 'Description',
         );
     }
 
@@ -83,9 +72,9 @@ class MataModuleGroup extends MataActiveRecord {
 
         $criteria = new CDbCriteria;
 
-        $criteria->compare('Id', $this->Id);
+        $criteria->compare('Id', $this->Id, true);
         $criteria->compare('Name', $this->Name, true);
-        $criteria->compare('Order', $this->Order);
+        $criteria->compare('Description', $this->Description, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
