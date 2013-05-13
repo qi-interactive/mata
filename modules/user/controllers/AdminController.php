@@ -132,7 +132,7 @@ class AdminController extends MataModuleController {
                 $profile->validate();
         }
 
-        $activeProjectsForUser = Project::model()->with(array(
+        $activeProjectsForUser = Project::model()->resetScope()->with(array(
                     "users" => array(
                         "condition" => "UserId = $model->id"
                     )
