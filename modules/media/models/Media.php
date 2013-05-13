@@ -23,7 +23,7 @@
  * The followings are the available model relations:
  * @property Mediafolder $mediaFolder
  */
-class Media extends MataCMSActiveRecord {
+class Media extends MataActiveRecord {
 
     /**
      * Returns the static model of the specified AR class.
