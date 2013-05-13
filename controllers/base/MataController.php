@@ -15,7 +15,12 @@ class MataController extends BaseAuthorizedController {
     public $layout = "mainWithMenu";
 
     public function filterBeforeExec($filterChain) {
+        $this->addClientScript();
+        $this->setLanguage();
+        parent::filterBeforeExec($filterChain);
+    }
 
+    private function addClientScript() {
         $cs = Yii::app()->getClientScript();
 
         $cs->registerScriptFile(Yii::app()->mataAssetUrl . '/js/mata.js', CClientScript::POS_BEGIN);
@@ -26,8 +31,10 @@ class MataController extends BaseAuthorizedController {
         $cs->registerCssFile(Yii::app()->mataAssetUrl . '/css/reset.css');
         $cs->registerCssFile(Yii::app()->mataAssetUrl . '/css/layout.css');
         $cs->registerCssFile(Yii::app()->mataAssetUrl . '/css/cmsFormContent.css');
+    }
 
-        parent::filterBeforeExec($filterChain);
+    private function setLanguage() {
+        Yii::app()->language = Yii::app()->user->project->Language;
     }
 
 }

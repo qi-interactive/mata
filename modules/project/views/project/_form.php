@@ -34,13 +34,6 @@
     </div>
 
     <div class="row">
-        <?php Yii::app()->getModule("client"); ?>
-        <?php echo $form->labelEx($model, 'ClientId'); ?>
-        <?php echo $form->dropDownList($model, "ClientId", CHtml::listData(Client::model()->findAll(), "Id", "Name")) ?>
-        <?php echo $form->error($model, 'ClientId'); ?>
-    </div>
-
-    <div class="row">
         <?php echo $form->labelEx($model, 'Language'); ?>
         <?php echo $form->textField($model, 'Language', array('size' => 15, 'maxlength' => 15)); ?>
         <?php echo $form->error($model, 'Language'); ?>

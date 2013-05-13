@@ -18,10 +18,6 @@ class MataDashboardController extends MataController {
         return null;
     }
 
-    public function actionIndex() {
-        parent::actionIndex();
-    }
-
 }
 
 ?>
