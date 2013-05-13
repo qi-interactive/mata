@@ -10,7 +10,7 @@ return array(
         'mata.controllers.base.*',
         'mata.widgets.base.*',
         "mata.helpers.*",
-        'mata.modules.project.models.*'
+        'mata.modules.project.models.*',
     ),
     'modules' => array(
         'user' => array(
@@ -46,8 +46,7 @@ return array(
         'eventLog' => array(
             "class" => "mata.extensions.SystemEventLog"
         ),
-        'matadb' => array(
-        ),
+        'matadb' => array(),
         'clientScript' => array(
             'packages' => array(
                 'bbq' => array(

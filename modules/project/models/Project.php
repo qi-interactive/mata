@@ -11,11 +11,9 @@
  * @property string $ProjectTypeId
  * @property string $ProjectKey
  * @property string $URI
- * @property string $ClientId
  * @property string $Language
  *
  * The followings are the available model relations:
- * @property Client $client
  * @property Cmsuser $creatorCMSUser
  * @property Media $media
  * @property Cmsuser $modifierCMSUser
@@ -31,7 +29,6 @@ class Project extends MataActiveRecord {
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
-    
 
     /**
      * @return string the associated database table name
@@ -58,14 +55,14 @@ class Project extends MataActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('Name, ProjectTypeId, ProjectKey, ClientId, CreatorUserId, ModifierUserId', 'required'),
+            array('Name, ProjectTypeId, ProjectKey, CreatorUserId, ModifierUserId', 'required'),
             array('Name, URI', 'length', 'max' => 255),
-            array('ProjectTypeId, ClientId', 'length', 'max' => 2),
+            array('ProjectTypeId', 'length', 'max' => 2),
             array('ProjectKey', 'length', 'max' => 32),
             array('Language', 'length', 'max' => 15),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('Id, DateCreated, Name, ProjectTypeId, ProjectKey, URI, ClientId, Language, DateModified, CreatorUserId, ModifierUserId', 'safe', 'on' => 'search'),
+            array('Id, DateCreated, Name, ProjectTypeId, ProjectKey, URI, Language, DateModified, CreatorUserId, ModifierUserId', 'safe', 'on' => 'search'),
         );
     }
 
@@ -76,7 +73,6 @@ class Project extends MataActiveRecord {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'client' => array(self::BELONGS_TO, 'Client', 'ClientId'),
             'creatorCMSUser' => array(self::BELONGS_TO, 'Cmsuser', 'CreatorUserId'),
             'modifierCMSUser' => array(self::BELONGS_TO, 'Cmsuser', 'ModifierUserId'),
             'projectType' => array(self::BELONGS_TO, 'Projecttype', 'ProjectTypeId'),
@@ -95,7 +91,6 @@ class Project extends MataActiveRecord {
             'ProjectTypeId' => 'Project Type',
             'ProjectKey' => 'Project Key',
             'URI' => 'Website',
-            'ClientId' => 'Client',
             'Language' => 'Language',
             'DateModified' => 'Date Modified',
             'CreatorUserId' => 'Creator Cmsuser',
@@ -119,7 +114,6 @@ class Project extends MataActiveRecord {
         $criteria->compare('ProjectTypeId', $this->ProjectTypeId, true);
         $criteria->compare('ProjectKey', $this->ProjectKey, true);
         $criteria->compare('URI', $this->URI, true);
-        $criteria->compare('ClientId', $this->ClientId, true);
         $criteria->compare('Language', $this->Language, true);
         $criteria->compare('DateModified', $this->DateModified, true);
         $criteria->compare('CreatorUserId', $this->CreatorUserId, true);
@@ -132,7 +126,7 @@ class Project extends MataActiveRecord {
             $criteria->compare("Name", $filter, true, "AND");
             $criteria->compare("Uri", $filter, true, "OR");
         }
-        
+
         $criteria->together = true;
 
         return new CActiveDataProvider($this, array(
@@ -155,26 +149,25 @@ class Project extends MataActiveRecord {
 
         return parent::beforeValidate();
     }
-    
+
     protected function afterSave() {
-        
+
         if ($this->isNewRecord) {
             $linking = new UserProject();
             $linking->attributes = array(
                 "ProjectId" => $this->Id,
                 "UserId" => Yii::app()->user->getId()
             );
-            
+
             if ($linking->save() == false)
                 throw new CHttpException("Could not create the linking between the new project and the user due to: " . $linking->getFirstError());
         }
-        
+
         parent::afterSave();
     }
 
     public function getSortableAttributes() {
         return array("Name", "DateCreated", "URI");
     }
-
 
 }
