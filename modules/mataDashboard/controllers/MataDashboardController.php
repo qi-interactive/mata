@@ -17,7 +17,6 @@ class MataDashboardController extends MataController {
     public function getModel() {
         return null;
     }
-
 }
 
 ?>

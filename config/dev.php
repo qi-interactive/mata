@@ -56,6 +56,12 @@ return array(
                     'coreScriptPosition' => CClientScript::POS_HEAD
                 )
             )
-        )
+        ),
+        'messages' => array(
+            "class" => "CDbMessageSource",
+            "connectionID" => "matadb",
+            "sourceMessageTable" => "sourcemessage",
+            "translatedMessageTable" => "message"
+        ),
     )
 );
