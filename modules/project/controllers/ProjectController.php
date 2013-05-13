@@ -1,6 +1,6 @@
 <?php
 
-class ProjectController extends MataCMSController {
+class ProjectController extends MataModuleController {
     
     public function getModel() {
         return Project::model();

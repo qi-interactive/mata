@@ -9,6 +9,7 @@ class MataWebApplication extends CWebApplication {
 
     public $defaultContentLanguage = "en";
     public $mataScopeUrl = "mata";
+    private $mataAssetUrl;
 
     function __construct($config = null) {
 
@@ -26,10 +27,11 @@ class MataWebApplication extends CWebApplication {
         ));
 
         parent::__construct($config);
+
+        $this->mataAssetUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('mata') . DIRECTORY_SEPARATOR . "assets", false, -1, YII_DEBUG);
     }
 
     public function createController($route, $owner = null) {
-
         if ($owner === null)
             $owner = $this;
 
@@ -60,6 +62,10 @@ class MataWebApplication extends CWebApplication {
     public function getContentLanguage() {
         return isset($_SESSION["mata::contentLanguage::" . Yii::app()->user->getProject()->ProjectKey]) ?
                 $_SESSION["mata::contentLanguage::" . Yii::app()->user->getProject()->ProjectKey] : $this->defaultContentLanguage;
+    }
+    
+    public function getMataAssetUrl() {
+        return $this->mataAssetUrl;
     }
 
 }

@@ -14,9 +14,9 @@ class BaseAuthorizedController extends BaseApplicationController {
 
     protected $user;
 
-    public function filterBeforeExec($filterChain, $runFilterChain = true) {
+    public function filterBeforeExec($filterChain) {
         $this->authorize();
-        parent::filterBeforeExec($filterChain, $runFilterChain);
+        parent::filterBeforeExec($filterChain);
     }
 
     private function authorize() {

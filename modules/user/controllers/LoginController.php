@@ -3,7 +3,7 @@
 class LoginController extends CController {
 
     public $defaultAction = 'login';
-    public $layout='mata.views.layouts.main';
+    public $layout = 'mata.views.layouts.main';
 
     /**
      * Displays the login page
@@ -23,6 +23,14 @@ class LoginController extends CController {
                         $this->redirect(Yii::app()->user->returnUrl);
                 }
             }
+
+            $assetUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('user') . DIRECTORY_SEPARATOR . "assets", false, -1, YII_DEBUG);
+            $cs = Yii::app()->getClientScript();
+
+            $cs->registerCssFile(Yii::app()->getMataAssetUrl() . '/css/reset.css');
+            $cs->registerCssFile(Yii::app()->getMataAssetUrl() . '/css/layout.css');
+            $cs->registerCssFile($assetUrl . '/css/login.css');
+
             // display the login form
             $this->render('/user/login', array('model' => $model));
         }

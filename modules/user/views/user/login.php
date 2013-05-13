@@ -1,5 +1,3 @@
-
-<link rel="stylesheet" type="text/css" href="/css/login.css" />
 <?php
 $this->pageTitle = Yii::app()->name . ' - ' . UserModule::t("Login");
 ?>
@@ -44,12 +42,14 @@ $this->pageTitle = Yii::app()->name . ' - ' . UserModule::t("Login");
             </p>
         </div>
 
-<!--        <div class="row rememberMe">
-            <?php echo CHtml::activeCheckBox($model, 'rememberMe'); ?>
-            <?php echo CHtml::activeLabelEx($model, 'rememberMe', array(
-                "class" => "clickable"
-            )); ?>
-        </div>-->
+        <!--        <div class="row rememberMe">
+        <?php echo CHtml::activeCheckBox($model, 'rememberMe'); ?>
+        <?php
+        echo CHtml::activeLabelEx($model, 'rememberMe', array(
+            "class" => "clickable"
+        ));
+        ?>
+                </div>-->
 
         <div class="row submit">
             <?php
@@ -60,7 +60,7 @@ $this->pageTitle = Yii::app()->name . ' - ' . UserModule::t("Login");
             ?>
         </div>
 
-        <?php echo CHtml::endForm(); ?>
+<?php echo CHtml::endForm(); ?>
     </div><!-- form -->
 
 
@@ -92,7 +92,7 @@ $this->pageTitle = Yii::app()->name . ' - ' . UserModule::t("Login");
 
 <script>
 
-
+mata = window.mata || {};
 
     $("#login-form").on("submit", function(e) {
 //        mata.login();
