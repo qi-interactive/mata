@@ -22,7 +22,7 @@ label {
     margin-bottom: 25px;
 }
 
-input, select, textarea{
+input, select, textarea, .redactor_box{
     max-width: 440px;
 }
 

@@ -121,10 +121,8 @@ hr {
     line-height: normal;
 }
 
-input, select, option, button, .btn, input, textarea{
+input, select, option, button, .btn, input, textarea {
     border: solid 1px rgb(51, 51, 51);
-    -moz-border-radius: 3px;
-    border-radius: 3px;
     width: 100%; 
     -webkit-transition: all 0.2s ;
     background: #FFF;
@@ -140,6 +138,11 @@ input, select, option, button, .btn, input, textarea{
     -moz-box-sizing: border-box;
     box-sizing: border-box;  
     -webkit-appearance:none;
+}
+
+input, select, option, button, .btn, input, .redactor_box {
+     -moz-border-radius: 3px;
+    border-radius: 3px;
 }
 
 textarea {
