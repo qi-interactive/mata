@@ -24,7 +24,7 @@ class VersionedModelBehavior extends CActiveRecordBehavior {
         $version->attributes = array(
             "DocumentId" => $this->getDocumentId(),
             "Revision" => $revision,
-            "CreatorUserId" => $this->getOwner()->CreatorUserId,
+            "CreatorUserId" => Yii::app()->user->getId(),
             "ModelAttributes" => serialize($this->getOwner()->attributes),
             "IsPublished" => Yii::app() instanceof CConsoleApplication ||
             (Yii::app()->user->checkAccess("publisher") &&

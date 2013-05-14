@@ -1,0 +1,3 @@
+[submodule "widgets/imperavi-redactor"]
+	path = widgets/imperavi-redactor
+	url = https://wichura@github.com/yiiext/imperavi-redactor-widget.git
