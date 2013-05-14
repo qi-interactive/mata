@@ -1,4 +1,3 @@
-
 ;
 (function($) {
     /**
@@ -34,7 +33,8 @@
             })
 
             container.on("click.mListView", ".list-view-item", function(e) {
-                if (e.metaKey) {
+                if (navigator.appVersion.indexOf("Mac") != -1 && e.metaKey || 
+                    e.ctrlKey) {
                     $.fn.mListView.toggleItem($(this));
                     container.trigger("selection-changed");
                     e.stopPropagation();

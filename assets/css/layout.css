@@ -506,3 +506,8 @@ img.avatar {
 p.note {
     margin: 10px 0;
 }
+
+.keyboard-key-icon {
+    width: 10px;
+    height: 10px;
+}

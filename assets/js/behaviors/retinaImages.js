@@ -14,9 +14,18 @@ $(window).ready(function() {
 
                 $("body").append($(newImg).css({opacity: 0, position: "absolute"}))
 
+                var width = $(el).width();
+                var height = $(el).height();
+                
+                if (width == 0 || height == 0) {
+                    width = newImg.width() /2;
+                    height = newImg.height() /2;
+                }
+                    
+
                 $(el).css({
-                    width: newImg.width() / 2,
-                    height: newImg.height() / 2
+                    width: width,
+                    height: height
                 });
 
                 $(newImg).remove();
