@@ -13,12 +13,6 @@ class HomeController extends MataController {
         $this->setResponseType("application/json");
         echo CJSON::encode($this->user->project);
     }
-
-    public function actionGetProjectsSelector() {
-        
-        $this->widget("project.widgets.projectSelector.ProjectSelector");
-    }
-
 }
 
 ?>
