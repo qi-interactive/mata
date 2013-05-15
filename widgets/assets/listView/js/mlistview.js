@@ -14,29 +14,26 @@
     $.fn.mListView = function(options) {
 
         return this.each(function() {
-            var container = $(this);
-            container.on("click.mListview", "a.delete", function() {
-                $.fn.mListView.delete(container)
-            })
+            var container = $(this).parent();
 
-            container.parent().find(".list-selection a.cancelSelectionBtn").on("click", function() {
+            $(document).on("click.mListCancelSelection", ".list-selection a.cancelSelectionBtn", function() {
                 $.fn.mListView.cancelSelection(container);
-                container.trigger("selection-changed");
+                $(document).trigger("selection-changed");
             })
 
-            container.parent().find(".list-selection a.removeBtn").on("click", function() {
+            $(document).on("click.mListRemoveBtn", ".list-selection a.removeBtn", function() {
                 $.fn.mListView.delete(container);
             })
 
-            container.on("selection-changed", function() {
+            $(document).on("selection-changed", function() {
                 $.fn.mListView.updateLabel(container)
             })
 
-            container.on("click.mListView", ".list-view-item", function(e) {
-                if (navigator.appVersion.indexOf("Mac") != -1 && e.metaKey || 
-                    e.ctrlKey) {
+            $(document).on("click.mListView", ".list-view-item", function(e) {
+                if (navigator.appVersion.indexOf("Mac") != -1 && e.metaKey ||
+                        e.ctrlKey) {
                     $.fn.mListView.toggleItem($(this));
-                    container.trigger("selection-changed");
+                    $(document).trigger("selection-changed");
                     e.stopPropagation();
                     return false;
                 }
@@ -82,8 +79,8 @@
                 linkElem.transition({"height": "0px"}, function() {
                     linkElem.remove()
                 })
-                
-                container.trigger("selection-changed");
+
+                $(document).trigger("selection-changed");
             })
 
         })

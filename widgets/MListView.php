@@ -16,9 +16,10 @@ class MListView extends CListView {
 
     public $template = "{sorter}<div class='list-view standard-list'>{items}</div>{pager}";
     public $pager = array('class' => 'mata.widgets.pagers.InfinitePager');
+    private $mListBaseScriptUrl;
 
     public function run() {
-        $this->baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('mata.widgets.assets') . '/listView', false, -1, YII_DEBUG);
+        $this->mListBaseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('mata.widgets.assets') . '/listView', false, -1, YII_DEBUG);
 
         $this->renderFilter();
         $this->renderListSelection();
@@ -55,10 +56,10 @@ class MListView extends CListView {
     <p class="label"></p>
     <div class="actions">
         <a class='removeBtn'  href="javascript:void(0)">
-            <img src="$this->baseScriptUrl/images/trash-icon.png" />
+            <img src="$this->mListBaseScriptUrl/images/trash-icon.png" />
         </a>
         <a class='cancelSelectionBtn' href="javascript:void(0)">
-            <img src="$this->baseScriptUrl/images/stop-icon.png" />
+            <img src="$this->mListBaseScriptUrl/images/stop-icon.png" />
         </a>
     </div>
 </div>
@@ -66,9 +67,8 @@ EOT;
     }
 
     public function registerClientScript() {
-
         $cs = Yii::app()->getClientScript();
-        $cs->registerScriptFile($this->baseScriptUrl . '/js/mlistview.js', CClientScript::POS_END);
+        $cs->registerScriptFile($this->mListBaseScriptUrl . '/js/mlistview.js', CClientScript::POS_END);
         $cs->registerScript(__CLASS__ . '#' . $this->id, "jQuery('#$this->id').mListView();");
 
         parent::registerClientScript();

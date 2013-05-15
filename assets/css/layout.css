@@ -204,6 +204,7 @@ ul.horizontal {
 
 ul.horizontal li {
     float: left;
+    line-height: 18px;
     margin-right: 20px;
 }
 
