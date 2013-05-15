@@ -58,7 +58,7 @@ class MataModuleGroup extends MataActiveRecord {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'modules' => array(self::HAS_MANY, 'Matamodule', 'MataModuleGroupId'),
+            'modules' => array(self::HAS_MANY, 'MataModule', 'MataModuleGroupId'),
         );
     }
 
