@@ -122,7 +122,6 @@ hr {
 }
 
 input, select, option, button, .btn, input, textarea {
-    border: solid 1px rgb(51, 51, 51);
     width: 100%; 
     -webkit-transition: all 0.2s ;
     background: #FFF;
@@ -141,6 +140,7 @@ input, select, option, button, .btn, input, textarea {
 }
 
 input, select, option, button, .btn, input, .redactor_box {
+    border: solid 1px rgb(51, 51, 51);
      -moz-border-radius: 3px;
     border-radius: 3px;
 }

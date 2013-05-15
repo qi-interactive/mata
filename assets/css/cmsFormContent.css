@@ -22,8 +22,12 @@ label {
     margin-bottom: 25px;
 }
 
-input, select, textarea, .redactor_box{
-    max-width: 440px;
+input, select, textarea{
+    max-width: 533px;
+}
+
+.redactor_box {
+    max-width:531px;
 }
 
  input.filter {
