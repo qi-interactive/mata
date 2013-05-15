@@ -30,6 +30,10 @@ input, select, textarea{
     max-width:531px;
 }
 
- input.filter {
+.redactor_editor {
+    resize: both !important;
+}
+
+input.filter {
     max-width: 100%;
 }
