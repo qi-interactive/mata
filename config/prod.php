@@ -2,14 +2,15 @@
 
 return array(
     'name' => 'Mata CMS',
-    'defaultController' => 'mata/Home',
+    'defaultController' => "mata/Home",
     'import' => array(
         'mata.models.base.*',
         'mata.models.*',
-         'mata.modules.base.*',
+        'mata.modules.base.*',
         'mata.controllers.base.*',
         'mata.widgets.base.*',
-        "mata.helpers.*"
+        "mata.helpers.*",
+        'mata.modules.project.models.*',
     ),
     'modules' => array(
         'user' => array(
@@ -27,6 +28,12 @@ return array(
         "media" => array(
             "class" => "mata.modules.media.MediaModule",
             "baseMediaPath" => "http://media.icodesign.com/"
+        ),
+        "mataDashboard" => array(
+            "class" => "mata.modules.mataDashboard.MataDashboardModule",
+        ),
+        'project' => array(
+            "class" => "mata.modules.project.ProjectModule",
         )
     ),
     'components' => array(
@@ -39,14 +46,7 @@ return array(
         'eventLog' => array(
             "class" => "mata.extensions.SystemEventLog"
         ),
-        'matadb' => array(
-            'connectionString' => 'mysql:host=37.123.117.162;dbname=matacms',
-            'emulatePrepare' => true,
-            'username' => 'matacms',
-            'password' => 'V9gOhicqxwHpY6p',
-            'charset' => 'utf8',
-            'enableParamLogging' => true
-        ),
+        'matadb' => array(),
         'clientScript' => array(
             'packages' => array(
                 'bbq' => array(
@@ -55,6 +55,12 @@ return array(
                     'coreScriptPosition' => CClientScript::POS_HEAD
                 )
             )
-        )
+        ),
+        'messages' => array(
+            "class" => "CDbMessageSource",
+            "connectionID" => "matadb",
+            "sourceMessageTable" => "sourcemessage",
+            "translatedMessageTable" => "message"
+        ),
     )
 );
