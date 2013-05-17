@@ -34,6 +34,9 @@ return array(
         ),
         'project' => array(
             "class" => "mata.modules.project.ProjectModule",
+        ),
+        'installer' => array(
+            "class" => "mata.modules.installer.MataInstallerModule",
         )
     ),
     'components' => array(
