@@ -16,8 +16,11 @@ class MataController extends BaseAuthorizedController {
 
     public function filterBeforeExec($filterChain) {
         $this->addClientScript();
-        $this->setLanguage();
+        
         parent::filterBeforeExec($filterChain);
+        $this->setLanguage();
+        
+        $filterChain->run();
     }
 
     private function addClientScript() {
