@@ -73,7 +73,6 @@ class AdminController extends MataModuleController {
         $profile = new Profile;
         $this->performAjaxValidation(array($model, $profile));
         if (isset($_POST['User'])) {
-            Yii::app()->getModule("touchstone")->addPoints("User module testing");
             $model->attributes = $_POST['User'];
             $model->activkey = Yii::app()->controller->module->encrypting(microtime() . $model->password);
             $profile->attributes = $_POST['Profile'];

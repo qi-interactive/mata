@@ -1,10 +1,10 @@
-<?php $this->beginContent('/layouts/main'); ?>
+<?php $this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts") . DIRECTORY_SEPARATOR . "main.php") ?
+                'application.views.layouts.main' : 'mata.views.layouts.main');
+?>
 
 <div id="side-menu-container">
     <div id="side-menu">
         <ul>
-
-
             <?php
             foreach (MataModuleGroup::model()->with("modules")->findAll() as $moduleGroup):
                 $module = Yii::app()->getModule($moduleGroup->modules[0]->Name);
@@ -26,7 +26,7 @@
                 ?>
 
                 <li><a href="javascript:void(0)" data-sub-nav="<?php echo strtolower($moduleGroup->Name) ?>" >
-                        <?php echo CHtml::image("/images/icons/" . str_replace(" ", "-", strtolower($moduleGroup->Name)) . "-large-icon.png"); ?>
+                <?php echo CHtml::image("/images/icons/" . str_replace(" ", "-", strtolower($moduleGroup->Name)) . "-large-icon.png"); ?>
                     </a></li>
                 <?php
             endforeach;
@@ -47,12 +47,12 @@
             <li id="side-menu-help"><a href='#'><img src='/images/layout/icons/loudspeaker-icon.png' /></a></li>
         </ul>-->
 
-    <?php foreach (MataModuleGroup::model()->with("modules")->findAll() as $moduleGroup): ?>
+<?php foreach (MataModuleGroup::model()->with("modules")->findAll() as $moduleGroup): ?>
         <div id="sub-menu-<?php echo strtolower($moduleGroup->Name) ?>" class="sub-menu">
             <h2>Accounts</h2>
             <p>Lorem ipsum dolor sit amet, consectuter adupiscig dig.</p>
             <ul>
-                <?php foreach ($moduleGroup->modules as $module): ?>
+    <?php foreach ($moduleGroup->modules as $module): ?>
 
 
                     <?php
