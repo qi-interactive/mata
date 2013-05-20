@@ -23,12 +23,9 @@ class ProjectSelector extends BaseWidget {
                 "order" => "Name ASC"
             ));
 
-        if ($this->activeProjects != null) {
-
-            foreach ($this->activeProjects as $project) {
+        if ($this->activeProjects != null)
+            foreach ($this->activeProjects as $project)
                 array_push($this->activeProjectIds, $project->Id);
-            }
-        }
     }
 
     public function run() {
