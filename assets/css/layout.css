@@ -186,8 +186,8 @@ input[type=checkbox] {
 #side-menu footer {
     position: absolute;
     bottom: 37px;
-    width: 250px;
-    left: 37px;
+    width: 350px;
+    left: 32px;
     -webkit-transform-origin: 3% 0%;
     -moz-transform-origin: 3% 0%;
     -ms-transform-origin: 3% 0%;
