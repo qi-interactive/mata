@@ -34,7 +34,7 @@
 
             <footer>
                 <a id="project-name" href='javascript:void(0)' onclick='mata.switchProject()'><?php echo $this->user->project->Name ?></a>
-                <a href="/user/logout">You are <?php echo $this->user->FirstName . " " . $this->user->LastName ?></a>
+                <a href="/user/logout"> <?php echo Yii::t("mata", "You are") . " " .  $this->user->FirstName . " " . $this->user->LastName ?></a>
             </footer>
         </ul>
     </div>

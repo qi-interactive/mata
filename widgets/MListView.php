@@ -43,7 +43,7 @@ class MListView extends CListView {
         }, 300);
     });"
         );
-        echo CHtml::textField("filter", (isset($_GET[$renderFilterId])) ? $_GET[$renderFilterId] : '', array('id' => $renderFilterId, "placeholder" => "Search", "class" => "filter"));
+        echo CHtml::textField("filter", (isset($_GET[$renderFilterId])) ? $_GET[$renderFilterId] : '', array('id' => $renderFilterId, "placeholder" => Yii::t("MListView", "Search"), "class" => "filter"));
     }
 
     private function renderListSelection() {
