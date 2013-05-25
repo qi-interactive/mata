@@ -49,6 +49,15 @@ return array(
         'eventLog' => array(
             "class" => "mata.extensions.SystemEventLog"
         ),
+        'googleApis' => array(
+            'class' => 'mata.extensions.googleApis.GoogleApis',
+            // See http://code.google.com/p/google-api-php-client/wiki/OAuth2
+            'clientId' => '526658062115.apps.googleusercontent.com',
+            'clientSecret' => 'm5DclALulijkyZodV3MJKU0p',
+            'redirectUri' => 'http://new.matacms.com/mata/dashboard/getUserStatsFromGoogleAnalytics',
+            // // This is the API key for 'Simple API Access'
+            'developerKey' => 'AIzaSyBgbvhN5-awrJnZWIOu-ks276-UrwE9YrQ',
+        ),
         'matadb' => array(),
         'clientScript' => array(
             'packages' => array(
