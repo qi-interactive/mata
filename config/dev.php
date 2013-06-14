@@ -16,9 +16,9 @@ return array(
         'user' => array(
             'class' => "mata.modules.user.UserModule",
             'hash' => 'sha1',
-            'sendActivationMail' => true,
-            'activeAfterRegister' => false,
-            'autoLogin' => true,
+            'sendActivationMail' => false,
+            'activeAfterRegister' => true,
+            'autoLogin' => false,
             'tableUsers' => "user",
             "tableProfiles" => "userprofile",
             "tableProfileFields" => "userprofilefield",
@@ -65,7 +65,8 @@ return array(
                     'basePath' => "webroot.js.lib",
                     'js' => array('jquery.ba-bbq.js'),
                     'coreScriptPosition' => CClientScript::POS_HEAD
-                )
+                ),
+                'jquery' => false
             )
         ),
         'messages' => array(

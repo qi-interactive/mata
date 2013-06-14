@@ -37,12 +37,14 @@ class Project extends MataActiveRecord {
         return 'project';
     }
 
-    public function defaultScope() {
+    public function scopes() {
         return array(
-            'with' => array(
-                "users" => array(
-                    "joinType" => "INNER JOIN",
-                    "condition" => "UserId = " . Yii::app()->user->getId()
+            'users' => array(
+                'with' => array(
+                    "users" => array(
+                        "joinType" => "INNER JOIN",
+                        "condition" => "UserId = " . Yii::app()->user->getId()
+                    )
                 )
             )
         );

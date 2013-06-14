@@ -47,13 +47,14 @@ return array(
             "class" => "mata.extensions.SystemEventLog"
         ),
         'matadb' => array(),
-        'clientScript' => array(
+         'clientScript' => array(
             'packages' => array(
                 'bbq' => array(
                     'basePath' => "webroot.js.lib",
                     'js' => array('jquery.ba-bbq.js'),
                     'coreScriptPosition' => CClientScript::POS_HEAD
-                )
+                ),
+                'jquery' => false
             )
         ),
         'messages' => array(
