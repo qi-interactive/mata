@@ -36,6 +36,10 @@ class Project extends MataActiveRecord {
     public function tableName() {
         return 'project';
     }
+    
+    public function defaultScope() {
+        return array();
+    }
 
     public function scopes() {
         return array(
