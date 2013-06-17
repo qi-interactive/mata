@@ -65,8 +65,8 @@ abstract class MataModuleController extends MataController {
                 $this->redirect(array("/$modelClassNameLowerCase/$modelClassNameLowerCase"));
             }
         }
-
-        $this->render('mata.views.module.update', array(
+        
+        $this->render(file_exists($this->getViewFile("update")) ? "update" : 'mata.views.module.update', array(
             'model' => $model,
             "modelName" => $modelClassName,
             "modelNameLowerCase" => strtolower($modelClassName)
