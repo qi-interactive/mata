@@ -30,13 +30,14 @@ class Project extends MataActiveRecord {
         return parent::model($className);
     }
 
+
     /**
      * @return string the associated database table name
      */
     public function tableName() {
         return 'project';
     }
-    
+
     public function defaultScope() {
         return array();
     }

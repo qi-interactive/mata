@@ -9,10 +9,6 @@ class User extends MataActiveRecord {
     //TODO: Delete for next version (backward compatibility)
     const STATUS_BANED = -1;
 
-    public function behaviors() {
-        return array();
-    }
-
     /**
      * The followings are the available columns in table 'users':
      * @var integer $id

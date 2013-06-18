@@ -11,9 +11,6 @@
  * @author wichura
  */
 class MataAdminController extends MataController {
-
-    
-    
     
 }
 

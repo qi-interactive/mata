@@ -14,7 +14,8 @@ class MataActiveRecord extends BaseActiveRecord {
 
     public function behaviors() {
         return array(
-            "versions" => "mata.behaviors.VersionedModelBehavior"
+            "versions" => "mata.behaviors.VersionedModelBehavior",
+            "exportToCSV" => "mata.behaviors.ExportToCSVBehavior"
         );
     }
 
