@@ -37,6 +37,10 @@ return array(
         ),
         'installer' => array(
             "class" => "mata.modules.installer.MataInstallerModule",
+        ),
+        'mataAdmin' => array(
+            "class" => "mata.modules.mataAdmin.MataAdminModule",
+            'defaultController' => "mataAdmin"
         )
     ),
     'components' => array(
