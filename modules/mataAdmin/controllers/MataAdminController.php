@@ -12,6 +12,9 @@
  */
 class MataAdminController extends MataController {
 
+    
+    
+    
 }
 
 ?>

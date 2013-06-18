@@ -15,10 +15,13 @@
     .menu-item-container {
         min-height: 20px;
     }
-    
+
     .ui-sortable-helper {
         border: none !important;
         width: 220px !important;
+        height: 16px !important;
+        line-height: 32px !important;
+        vertical-align: middle !important;
     }
 
 </style>
@@ -30,14 +33,23 @@
     $(window).ready(function() {
 
 
-        $("#side-menu-container").sortable({
+        $("#side-menu-container, .menu-item-container").sortable({
             "containment": "window",
-            "connectWith": "#side-menu-container",
+            "connectWith": ".menu-item-container",
             "z-index": 299999,
             "items": "li",
+            tolerance: "pointer",
             start: onDragStart,
             beforeStop: onBeforeDragStop
         });
+        
+//        $(".menu-item-container").sortable({
+//            "connectWith": "#side-menu-container",
+//             "z-index": 299999,
+//            "items": "li",
+//            start: onDragStart,
+//            beforeStop: onBeforeDragStop
+//        })
 
 //        $("#side-menu").sortable({
 //            "containment": "window",
@@ -50,25 +62,40 @@
     })
 
     function onDragStart() {
+        
+        var mataGroupDrag = null;
+        
+        $(".ui-sortable-helper img").data("mataGroupDrag", null)
         $(window).bind("mousemove.mataAdmin", function(e) {
 
             var draggable = $(".ui-sortable-helper");
             var imgDragged = $(".ui-sortable-helper img");
-            imgDragged.attr("style", null)
-            if (e.pageX < $("#side-menu").width()) {
+            
+            if (mataGroupDrag == null)
+              imgDragged.attr("style", null)
+          
+            if (e.pageX < $("#side-menu").width() && mataGroupDrag !== true) {
+              
+              mataGroupDrag = true
                 imgDragged.map(function(s, el) {
                     el = $(el)
                     el.attr("src", el.attr("src").replace("small", "large"));
                 })
                 draggable.find("span.label").hide();
-                imgDragged.width(32)
-            } else {
+                imgDragged.stop().transit({
+                    width: 32
+                })
+            } else if (e.pageX > $("#side-menu").width() && mataGroupDrag!== false) {
+                console.log(33)
+                 mataGroupDrag = false
                 imgDragged.map(function(s, el) {
                     el = $(el)
                     el.attr("src", el.attr("src").replace("large", "small"));
                 })
-                 draggable.find("span.label").show();
-                imgDragged.width(16)
+                draggable.find("span.label").show();
+                imgDragged.stop().transit({
+                    width: 16
+                })
             }
         })
     }

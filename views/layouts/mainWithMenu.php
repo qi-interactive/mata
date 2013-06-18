@@ -29,6 +29,7 @@ $this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts")
 
                 <li class='menu-item'><a href="javascript:void(0)" data-sub-nav="<?php echo strtolower($moduleGroup->Name) ?>" >
                         <?php
+                        
                         echo CHtml::image("/images/icons/" . str_replace(" ", "-", strtolower($moduleGroup->Name)) . "-large-icon.png") .
                         "<span class='label'>" . Yii::t(strtolower($module->Name), $module->Name) . "</span>";
                         ?>
