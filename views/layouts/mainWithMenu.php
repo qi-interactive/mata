@@ -29,7 +29,6 @@ $this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts")
 
                 <li class='menu-item'><a href="javascript:void(0)" data-sub-nav="<?php echo strtolower($moduleGroup->Name) ?>" >
                         <?php
-                        
                         echo CHtml::image("/images/icons/" . str_replace(" ", "-", strtolower($moduleGroup->Name)) . "-large-icon.png") .
                         "<span class='label'>" . Yii::t(strtolower($module->Name), $module->Name) . "</span>";
                         ?>
@@ -54,7 +53,7 @@ $this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts")
             <li id="side-menu-help"><a href='#'><img src='/images/layout/icons/loudspeaker-icon.png' /></a></li>
         </ul>-->
 
-<?php foreach (MataModuleGroup::model()->with("modules")->findAll() as $moduleGroup): ?>
+    <?php foreach (MataModuleGroup::model()->with("modules")->findAll() as $moduleGroup): ?>
         <div id="sub-menu-<?php echo strtolower($moduleGroup->Name) ?>" class="sub-menu">
             <h2>Accounts</h2>
             <p>Lorem ipsum dolor sit amet, consectuter adupiscig dig.</p>
@@ -82,10 +81,11 @@ $this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts")
 
 </div>
 
-<iframe frameborder="0" id='content-container'>
-</iframe>
-<?php echo $content ?>
-
+<div id='mata-right-pane'>
+    <iframe frameborder="0" id='content-container'>
+    </iframe>
+    <?php echo $content ?>
+</div>
 <script>
 
                     $(window).ready(function() {
@@ -128,7 +128,7 @@ $this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts")
 
                         $("#side-menu-" + section).addClass("active")
 
-                        $("#content-container").transition({
+                        $("#mata-right-pane").transition({
                             "margin-left": 321
                         });
 
@@ -146,7 +146,7 @@ $this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts")
                             left: -121
                         }).removeClass("active")
 
-                        $("#content-container").transition({
+                        $("#mata-right-pane").transition({
                             "margin-left": 100
                         });
 

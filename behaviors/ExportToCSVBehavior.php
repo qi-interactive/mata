@@ -15,10 +15,10 @@ class ExportToCSVBehavior extends CActiveRecordBehavior {
     private $currentLine = array();
     private $retVal = "";
 
-    public function findAllToCSV($csvFileName = null, $condition = '', $params = array()) {
-        $rs = $this->getOwner()->findAll($condition, $params);
-
-
+    public function findAllToCSV($csvFileName = null, $condition = array(), $params = array()) {
+        
+        $rs = $this->getOwner()->findAll();
+        
         $relations = $this->getOwner()->getDbCriteria()->with;
         $this->generateHeaders(current($rs), $relations);
 
