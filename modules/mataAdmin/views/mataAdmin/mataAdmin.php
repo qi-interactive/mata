@@ -27,11 +27,12 @@
     #content-container {
         display: none;
     }
-    
+
     #mata-right-pane {
         padding: 0px 50px;
     }
 </style>
+
 <!-- The file upload form used as target for the file upload widget -->
 <form id="fileupload" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
     <!-- Redirect browsers with JavaScript disabled to the origin page -->
@@ -63,6 +64,18 @@ $this->widget('mata.modules.media.widgets.FileUploader', array());
     <label>Install new module</label>
     <input name="upload-file" id="file-input" type="file" />
 </form>
+
+
+<?php
+if (!is_writable(Yii::getPathOfAlias("application.config")))
+    echo "<p class='error'>Config folder is not writable</p>";
+?>
+
+<?php
+if (!is_writable(Yii::getPathOfAlias("application.modules")))
+    echo "<p class='error'>Modules folder is not writable</p>";
+?>
+
 <script>
 
 

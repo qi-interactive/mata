@@ -64,7 +64,7 @@ class BaseController extends CController {
         }
     }
 
-    public function renderPartial($view, $data = null, $return = false) {
+    public function renderPartial($view,$data=null,$return=false,$processOutput=false) {
         return parent::renderPartial($view, array_merge($this->data, $data != null ? $data : array()), $return);
     }
 
