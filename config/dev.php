@@ -66,7 +66,7 @@ return array(
         'clientScript' => array(
             'packages' => array(
                 'bbq' => array(
-                    'basePath' => "webroot.js.lib",
+                    'basePath' => "mata.assets.js.lib",
                     'js' => array('jquery.ba-bbq.js'),
                     'coreScriptPosition' => CClientScript::POS_HEAD
                 ),
