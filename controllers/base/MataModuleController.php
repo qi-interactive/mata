@@ -34,12 +34,12 @@ abstract class MataModuleController extends MataController {
                 Yii::app()->eventLog->record(Yii::app()->user->FirstName . " " . Yii::app()->user->LastName . " created a new project " .
                         $model->getLabel());
 
-                $modelClassNameLowerCase = strtolower($modelClassName);
-                $this->redirect(array("/$modelClassNameLowerCase/$modelClassNameLowerCase"));
+                $pathSegments = explode("/", Yii::app()->request->pathInfo);
+                $this->redirect(array("/$pathSegments[0]/$pathSegments[1]"));
             }
         }
 
-        $this->render('mata.views.module.create', array(
+        $this->render(file_exists($this->getViewFile("create")) ? "create" : 'mata.views.module.create', array(
             'model' => $model,
             "modelName" => $modelClassName
         ));
@@ -61,11 +61,12 @@ abstract class MataModuleController extends MataController {
             $model->attributes = $_POST[$modelClassName];
             if ($model->save()) {
                 FlashMessage::setStandardModelUpdateMessage($model);
-                $modelClassNameLowerCase = strtolower($modelClassName);
-                $this->redirect(array("/$modelClassNameLowerCase/$modelClassNameLowerCase"));
+                
+                $pathSegments = explode("/", Yii::app()->request->pathInfo);
+                $this->redirect(array("/$pathSegments[0]/$pathSegments[1]"));
             }
         }
-        
+
         $this->render(file_exists($this->getViewFile("update")) ? "update" : 'mata.views.module.update', array(
             'model' => $model,
             "modelName" => $modelClassName,
