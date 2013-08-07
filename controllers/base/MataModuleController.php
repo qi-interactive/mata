@@ -61,7 +61,7 @@ abstract class MataModuleController extends MataController {
             $model->attributes = $_POST[$modelClassName];
             if ($model->save()) {
                 FlashMessage::setStandardModelUpdateMessage($model);
-                
+
                 $pathSegments = explode("/", Yii::app()->request->pathInfo);
                 $this->redirect(array("/$pathSegments[0]/$pathSegments[1]"));
             }
@@ -110,10 +110,21 @@ abstract class MataModuleController extends MataController {
         if (isset($_GET[$modelClassName]))
             $model->attributes = $_GET[$modelClassName];
 
-        $this->render('mata.views.module.admin', array(
+        $this->render(file_exists($this->getViewFile("admin")) ? "admin" : 'mata.views.module.admin', array(
             'model' => $model,
             "modelName" => $modelClassName,
             "modelNameLowerCase" => strtolower($modelClassName)
+        ));
+    }
+
+    public function actionView($id) {
+        $model = $this->loadModel($id);
+        
+        if ($model == null)
+            throw new CHttpException(500, "Could not find model by id " . $id);
+        
+        $this->render(file_exists($this->getViewFile("view")) ? "view" : 'mata.views.module.view', array(
+            'model' => $model
         ));
     }
 
