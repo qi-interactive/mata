@@ -1,6 +1,6 @@
 <?php
-$this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts") . DIRECTORY_SEPARATOR . "main.php") ?
-                'application.views.layouts.main' : 'mata.views.layouts.main');
+$this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts") . DIRECTORY_SEPARATOR . "mataMain.php") ?
+                'application.views.layouts.main' : 'mata.views.layouts.mataMain');
 ?>
 
 <div id="side-menu-container">
