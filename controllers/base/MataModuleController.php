@@ -104,7 +104,6 @@ abstract class MataModuleController extends MataController {
      */
     public function actionAdmin() {
         $modelClassName = get_class($this->getModel());
-
         $model = new $modelClassName('search');
         $model->unsetAttributes();  // clear any default values
         if (isset($_GET[$modelClassName]))

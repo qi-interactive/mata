@@ -70,6 +70,7 @@ return array(
                     'js' => array('jquery.ba-bbq.js'),
                     'coreScriptPosition' => CClientScript::POS_HEAD
                 ),
+                // TODO Think how to remove this, Gii doesn't work with this in here and possible imapct on 3rd party libs 
                 'jquery' => false
             )
         ),
