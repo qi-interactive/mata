@@ -5,7 +5,8 @@
         <meta name="language" content="en" />
         <meta HTTP-EQUIV="Pragma" CONTENT="no-cache">
         <meta HTTP-EQUIV="Expires" CONTENT="-1">
-
+        <meta name="viewport" content="initial-scale = 1.0" />
+        
         <link rel="shortcut icon" href="/favicon.png" />
         <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->mataAssetUrl ?>/css/tooltip.css" />
 

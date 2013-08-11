@@ -47,14 +47,40 @@ class MataAdminController extends MataController {
             if ($this->moveToApplication($this->uncompress($packageFile) . DIRECTORY_SEPARATOR . basename($packageFile, ".mata"), Yii::getPathOfAlias("application.modules") . DIRECTORY_SEPARATOR . basename($packageFile, ".mata")) == false)
                 throw new CHttpException(500, "Copy from package tmp location to application failed");
 
-            $this->updateMataConfigFile(basename($packageFile, ".mata"));
+            $this->addToMataDb(basename($packageFile, ".mata"));
         } catch (Exception $e) {
             throw new CHttpException(500, "Installation failed: " . $e->getMessage());
         }
     }
-
+    
+    public function addToMataDb($name) {
+        
+        $newModule = new MataModule();
+        $newMataModuleGroup = new MataModuleGroup();
+        
+        
+        $newMataModuleGroup->attributes = array(
+            "Name" => $name,
+            "Order" => 10
+        );
+        
+         if ($newMataModuleGroup->save() == false) 
+            throw new CHttpException(500, "Could not save mata module group");
+        
+        
+        $newModule->attributes = array(
+            "Name" => $name,
+            "MataModuleGroupId" => $newMataModuleGroup->Id
+        );
+        
+        if ($newModule->save() == false) 
+            throw new CHttpException(500, "Could not save mata module");
+        
+        
+    }
+    
+    
     // TODO problem is that i cannot execute scripts as sudo 
-
     private function uncompress($packageFile) {
 
         $zip = new ZipArchive;
@@ -82,30 +108,6 @@ class MataAdminController extends MataController {
         return rename($source, $dest);
     }
 
-    private function updateMataConfigFile($moduleName) {
-        $configFile = Yii::getPathOfAlias("application.config") . DIRECTORY_SEPARATOR . "dev.php";
-
-        $config = require($configFile);
-        
-        
-        $config = CMap::mergeArray($config, array(
-            "modules" => array(
-                $moduleName
-            )
-        ));
-        
-        
-//        file_put_contents($configFile . ".bak", print_r($config, 1));
-//         ob_start();
-//        echo "<pre>";
-//        
-//        print_r($config);
-//        
-//        $pngString = ob_get_contents();
-//        ob_end_clean();
-         echo "<pre>";
-        print_r($config);
-    }
 
     function deleteDirectory($dir) {
         if (!file_exists($dir))
