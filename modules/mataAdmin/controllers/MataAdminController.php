@@ -19,6 +19,8 @@ class MataAdminController extends MataController {
     public function actionIndex() {
 
         $configFolder = Yii::getPathOfAlias("application.config");
+        $this->setData("modules", MataModule::model()->findAll());
+        
         parent::actionIndex();
     }
 

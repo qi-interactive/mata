@@ -76,6 +76,45 @@ if (!is_writable(Yii::getPathOfAlias("application.modules")))
     echo "<p class='error'>Modules folder is not writable</p>";
 ?>
 
+
+
+<div id="mata-modules">
+
+    <h1>Installed modules</h1>
+    <?php
+    
+    echo json_encode(array(
+            'connectionString' => 'mysql:host=37.123.117.163;dbname=manage.qi-interactive.com',
+            'emulatePrepare' => true,
+            'username' => 'qi',
+            'password' => 'CHcxjvLs',
+            'charset' => 'utf8',
+            'enableParamLogging' => true
+        ));
+    foreach ($modules as $module):
+        $config = json_decode($module->Config, true);
+        ?>
+        <h2><?php echo $module->Name ?></h2>
+
+        <?php
+        if ($config != null):
+            foreach ($config as $key => $value):
+                ?>
+
+            <label><?php echo $key ?></label>
+            <input type="text" value="<?php echo $value ?>"  />
+
+                <?php
+            endforeach;
+        endif;
+        ?>
+
+    <?php endforeach; ?>
+
+
+
+</div>
+
 <script>
 
 

@@ -34,12 +34,12 @@ class MataWebApplication extends CWebApplication {
 
     private function initializeMataModules() {
 
-        $modules = Yii::app()->matadb->createCommand("select Name from matamodule")->queryColumn();
+        $modules = Yii::app()->matadb->createCommand("select Name, Config from matamodule")->queryAll();
         
         // This logic means file overwrites db settings - is this correct?
         foreach ($modules as $module) {
-            if (!$this->hasModule($module))
-                $this->setModules(array($module));
+            if (!$this->hasModule($module["Name"]))
+                $this->setModules(array($module["Name"] => json_decode($module["Config"], true)));
         }
     }
 
