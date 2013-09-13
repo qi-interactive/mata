@@ -34,12 +34,12 @@ abstract class MataModuleController extends MataController {
                 Yii::app()->eventLog->record(Yii::app()->user->FirstName . " " . Yii::app()->user->LastName . " created a new project " .
                         $model->getLabel());
 
-                $modelClassNameLowerCase = strtolower($modelClassName);
-                $this->redirect(array("/$modelClassNameLowerCase/$modelClassNameLowerCase"));
+                $pathSegments = explode("/", Yii::app()->request->pathInfo);
+                $this->redirect(array("/$pathSegments[0]/$pathSegments[1]"));
             }
         }
 
-        $this->render('mata.views.module.create', array(
+        $this->render(file_exists($this->getViewFile("create")) ? "create" : 'mata.views.module.create', array(
             'model' => $model,
             "modelName" => $modelClassName
         ));
@@ -61,12 +61,13 @@ abstract class MataModuleController extends MataController {
             $model->attributes = $_POST[$modelClassName];
             if ($model->save()) {
                 FlashMessage::setStandardModelUpdateMessage($model);
-                $modelClassNameLowerCase = strtolower($modelClassName);
-                $this->redirect(array("/$modelClassNameLowerCase/$modelClassNameLowerCase"));
+
+                $pathSegments = explode("/", Yii::app()->request->pathInfo);
+                $this->redirect(array("/$pathSegments[0]/$pathSegments[1]"));
             }
         }
 
-        $this->render('mata.views.module.update', array(
+        $this->render(file_exists($this->getViewFile("update")) ? "update" : 'mata.views.module.update', array(
             'model' => $model,
             "modelName" => $modelClassName,
             "modelNameLowerCase" => strtolower($modelClassName)
@@ -103,16 +104,26 @@ abstract class MataModuleController extends MataController {
      */
     public function actionAdmin() {
         $modelClassName = get_class($this->getModel());
-
         $model = new $modelClassName('search');
         $model->unsetAttributes();  // clear any default values
         if (isset($_GET[$modelClassName]))
             $model->attributes = $_GET[$modelClassName];
 
-        $this->render('mata.views.module.admin', array(
+        $this->render(file_exists($this->getViewFile("admin")) ? "admin" : 'mata.views.module.admin', array(
             'model' => $model,
             "modelName" => $modelClassName,
             "modelNameLowerCase" => strtolower($modelClassName)
+        ));
+    }
+
+    public function actionView($id) {
+        $model = $this->loadModel($id);
+        
+        if ($model == null)
+            throw new CHttpException(500, "Could not find model by id " . $id);
+        
+        $this->render(file_exists($this->getViewFile("view")) ? "view" : 'mata.views.module.view', array(
+            'model' => $model
         ));
     }
 

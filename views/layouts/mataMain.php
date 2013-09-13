@@ -5,14 +5,16 @@
         <meta name="language" content="en" />
         <meta HTTP-EQUIV="Pragma" CONTENT="no-cache">
         <meta HTTP-EQUIV="Expires" CONTENT="-1">
-
+        <meta name="viewport" content="initial-scale = 1.0" />
+        
         <link rel="shortcut icon" href="/favicon.png" />
+        <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->mataAssetUrl ?>/css/tooltip.css" />
 
         <link rel="stylesheet" type="text/css" href="/css/main.css" />
 
         <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <script type="text/javascript" src="/js/lib/query.transit.min.js"></script>
-
+        <script type="text/javascript" src="<?php echo Yii::app()->mataAssetUrl ?>/js/lib/bootstrap-tooltip.js"></script>
+        <script type="text/javascript" src="<?php echo Yii::app()->mataAssetUrl ?>/js/lib/jquery.transit.min.js"></script>
         <script type="text/javascript" src="/js/main.js"></script>
 
 

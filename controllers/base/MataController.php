@@ -12,11 +12,11 @@
  */
 class MataController extends BaseAuthorizedController {
 
-    public $layout = "mainWithMenu";
+    public $layout = "mata.views.layouts.mainWithMenu";
 
     public function filterBeforeExec($filterChain) {
         $this->addClientScript();
-        
+
         parent::filterBeforeExec($filterChain);
         $this->setLanguage();
     }

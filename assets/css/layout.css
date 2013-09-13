@@ -141,7 +141,7 @@ input, select, option, button, .btn, input, textarea {
 
 input, select, option, button, .btn, input, .redactor_box {
     border: solid 1px rgb(51, 51, 51);
-     -moz-border-radius: 3px;
+    -moz-border-radius: 3px;
     border-radius: 3px;
 }
 
@@ -186,8 +186,8 @@ input[type=checkbox] {
 #side-menu footer {
     position: absolute;
     bottom: 37px;
-    width: 250px;
-    left: 37px;
+    width: 350px;
+    left: 32px;
     -webkit-transform-origin: 3% 0%;
     -moz-transform-origin: 3% 0%;
     -ms-transform-origin: 3% 0%;
@@ -286,9 +286,16 @@ ul.horizontal li:last-child {
 }
 
 .sub-menu img {
-    margin-right: 10px;
     vertical-align: middle;
     margin-top: -2px;
+}
+
+.menu-item .label {
+    margin-left: 10px;
+}
+
+#side-menu .label {
+    display: none;
 }
 
 .sub-menu li:first-child {
@@ -338,20 +345,12 @@ ul.horizontal li:last-child {
     padding: 0px 20px;
 }
 
-#content-container {
-    margin-left: 100px;
-    padding-top: 0px;
-    border: 0px;
-    width: 890px;
-    height: 99.6%;
-}
 
 .multioption-element a {
     width: 100%;
     height: 100%;
-    line-height :108px;
-    vertical-align: bottom;
     display:block;
+    margin-top: 39px
 }
 
 img.avatar {
@@ -515,3 +514,44 @@ p.note {
     width: 10px;
     height: 10px;
 }
+
+.badge {
+    display: inline-block;
+    padding: 2px 4px;
+    font-size: 11.844px;
+    font-weight: bold;
+    line-height: 14px;
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    white-space: nowrap;
+    vertical-align: top;
+    background-color: #999999;
+    padding-right: 9px;
+    padding-left: 9px;
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    border-radius: 9px;
+}
+
+.badge-success {
+    background-color: #468847;
+}
+
+#mata-right-pane {
+    margin-left: 321px;
+    padding-top: 0px;
+    border: 0px;
+    width: 890px;
+    height: 99.6%;
+}
+
+#mata-right-pane #content-container {
+    width: 100%;
+    height: 100%;
+}
+
+#side-menu-container {
+    position: fixed;
+    left: 0px;
+    height: 100%; 
+}  

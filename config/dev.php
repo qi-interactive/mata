@@ -16,9 +16,9 @@ return array(
         'user' => array(
             'class' => "mata.modules.user.UserModule",
             'hash' => 'sha1',
-            'sendActivationMail' => true,
-            'activeAfterRegister' => false,
-            'autoLogin' => true,
+            'sendActivationMail' => false,
+            'activeAfterRegister' => true,
+            'autoLogin' => false,
             'tableUsers' => "user",
             "tableProfiles" => "userprofile",
             "tableProfileFields" => "userprofilefield",
@@ -37,6 +37,10 @@ return array(
         ),
         'installer' => array(
             "class" => "mata.modules.installer.MataInstallerModule",
+        ),
+        'mataAdmin' => array(
+            "class" => "mata.modules.mataAdmin.MataAdminModule",
+            'defaultController' => "mataAdmin"
         )
     ),
     'components' => array(
@@ -62,10 +66,12 @@ return array(
         'clientScript' => array(
             'packages' => array(
                 'bbq' => array(
-                    'basePath' => "webroot.js.lib",
+                    'basePath' => "mata.assets.js.lib",
                     'js' => array('jquery.ba-bbq.js'),
                     'coreScriptPosition' => CClientScript::POS_HEAD
-                )
+                ),
+                // TODO Think how to remove this, Gii doesn't work with this in here and possible imapct on 3rd party libs 
+                'jquery' => false
             )
         ),
         'messages' => array(

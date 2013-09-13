@@ -13,10 +13,11 @@
 class Html extends CHtml {
     
     
-    public static function gravatar($email) {
-        return self::image("http://www.gravatar.com/avatar/" . strtolower(trim(md5($email))), 'User Avatar', array(
-            "class" => "avatar no-retina-version"
-        ));
+    public static function gravatar($email, $alt="User avatar", $htmlOptions = array()) {
+        return self::image("http://www.gravatar.com/avatar/" . strtolower(trim(md5($email))), $alt, array_merge(array(
+            "class" => "avatar no-retina-version",
+            "title" => $alt
+        ), $htmlOptions));
     }
 }
 

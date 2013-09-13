@@ -1,10 +1,11 @@
-<?php $this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts") . DIRECTORY_SEPARATOR . "main.php") ?
-                'application.views.layouts.main' : 'mata.views.layouts.main');
+<?php
+$this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts") . DIRECTORY_SEPARATOR . "mataMain.php") ?
+                'application.views.layouts.main' : 'mata.views.layouts.mataMain');
 ?>
 
 <div id="side-menu-container">
     <div id="side-menu">
-        <ul>
+        <ul class="menu-item-container">
             <?php
             foreach (MataModuleGroup::model()->with("modules")->findAll() as $moduleGroup):
                 $module = Yii::app()->getModule($moduleGroup->modules[0]->Name);
@@ -15,9 +16,11 @@
                 $assetURL = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias($module->Name) . DIRECTORY_SEPARATOR . "assets", false, -1, YII_DEBUG);
                 if (count($moduleGroup->modules) == 1 && count(Yii::app()->getModule($moduleGroup->modules[0]->Name)->getNav()) == 1):
                     ?>
-                    <li><a href="<?php echo current($module->getNav()) ?>">
+                    <li class='menu-item'><a href="<?php echo current($module->getNav()) ?>">
                             <?php
-                            echo CHtml::image($assetURL . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . str_replace(" ", "-", strtolower(key($module->getNav()))) . "-large-icon.png");
+                          
+                            echo CHtml::image($assetURL . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "module-large-icon.png") .
+                            "<span class='label'>" . Yii::t(strtolower($module->Name), $module->Name) . "</span>";
                             ?>
                         </a></li>
                     <?php
@@ -25,8 +28,12 @@
                 endif;
                 ?>
 
-                <li><a href="javascript:void(0)" data-sub-nav="<?php echo strtolower($moduleGroup->Name) ?>" >
-                <?php echo CHtml::image("/images/icons/" . str_replace(" ", "-", strtolower($moduleGroup->Name)) . "-large-icon.png"); ?>
+                <li class='menu-item'><a href="javascript:void(0)" data-sub-nav="<?php echo strtolower($moduleGroup->Name) ?>" >
+                        <?php
+                        echo CHtml::image($assetURL . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "module-large-icon.png") .
+                        "<span class='label'>" . Yii::t(strtolower($module->Name), $module->Name) . "</span>";
+                        ?>
+
                     </a></li>
                 <?php
             endforeach;
@@ -34,7 +41,7 @@
 
             <footer>
                 <a id="project-name" href='javascript:void(0)' onclick='mata.switchProject()'><?php echo $this->user->project->Name ?></a>
-                <a href="/user/logout">You are <?php echo $this->user->FirstName . " " . $this->user->LastName ?></a>
+                <a href="/user/logout"> <?php echo Yii::t("mata", "You are") . " " . $this->user->FirstName . " " . $this->user->LastName ?></a>
             </footer>
         </ul>
     </div>
@@ -47,38 +54,39 @@
             <li id="side-menu-help"><a href='#'><img src='/images/layout/icons/loudspeaker-icon.png' /></a></li>
         </ul>-->
 
-<?php foreach (MataModuleGroup::model()->with("modules")->findAll() as $moduleGroup): ?>
+    <?php foreach (MataModuleGroup::model()->with("modules")->findAll() as $moduleGroup): ?>
         <div id="sub-menu-<?php echo strtolower($moduleGroup->Name) ?>" class="sub-menu">
             <h2>Accounts</h2>
             <p>Lorem ipsum dolor sit amet, consectuter adupiscig dig.</p>
-            <ul>
-    <?php foreach ($moduleGroup->modules as $module): ?>
-
+            <ul class="menu-item-container">
+                <?php foreach ($moduleGroup->modules as $module): ?>
 
                     <?php
                     foreach (Yii::app()->getModule($module->Name)->getNav() as $label => $url):
                         $assetURL = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias($module->Name) . DIRECTORY_SEPARATOR . "assets", false, -1, YII_DEBUG);
-                        echo "<li><a href='$url'>" .
+                        echo "<li class='menu-item'><a href='$url'>" .
                         CHtml::image($assetURL . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . str_replace(" ", "-", strtolower($label)) . "-small-icon.png") .
-                        Yii::t(strtolower($module->Name), $label) .
-                        "</a></li>";
+                        "<span class='label'>" . Yii::t(strtolower($module->Name), $label) .
+                        "</span></a></li>";
                     endforeach;
                     ?>
                     <?php
                 endforeach;
                 ?>
+
             </ul>
         </div>
         <?php
     endforeach;
     ?>
 
-
 </div>
 
-<iframe frameborder="0" id='content-container'>
-</iframe>
-
+<div id='mata-right-pane'>
+    <iframe frameborder="0" id='content-container'>
+    </iframe>
+    <?php echo $content ?>
+</div>
 <script>
 
                     $(window).ready(function() {
@@ -121,7 +129,7 @@
 
                         $("#side-menu-" + section).addClass("active")
 
-                        $("#content-container").transition({
+                        $("#mata-right-pane").transition({
                             "margin-left": 321
                         });
 
@@ -139,7 +147,7 @@
                             left: -121
                         }).removeClass("active")
 
-                        $("#content-container").transition({
+                        $("#mata-right-pane").transition({
                             "margin-left": 100
                         });
 

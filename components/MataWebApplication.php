@@ -19,7 +19,6 @@ class MataWebApplication extends CWebApplication {
         $mataConfig = require($mataFolderPath . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . (YII_DEBUG ? "dev.php" : "prod.php"));
         $config = CMap::mergeArray($mataConfig, require($config));
 
-
         $this->setComponents(array(
             'matadb' => array(
                 'class' => 'CDbConnection',
@@ -28,7 +27,20 @@ class MataWebApplication extends CWebApplication {
 
         parent::__construct($config);
 
+        $this->initializeMataModules();
+
         $this->mataAssetUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('mata') . DIRECTORY_SEPARATOR . "assets", false, -1, YII_DEBUG);
+    }
+
+    private function initializeMataModules() {
+
+        $modules = Yii::app()->matadb->createCommand("select Name, Config from matamodule")->queryAll();
+        
+        // This logic means file overwrites db settings - is this correct?
+        foreach ($modules as $module) {
+            if (!$this->hasModule($module["Name"]))
+                $this->setModules(array($module["Name"] => json_decode($module["Config"], true)));
+        }
     }
 
     public function createController($route, $owner = null) {
@@ -63,7 +75,7 @@ class MataWebApplication extends CWebApplication {
         return isset($_SESSION["mata::contentLanguage::" . Yii::app()->user->getProject()->ProjectKey]) ?
                 $_SESSION["mata::contentLanguage::" . Yii::app()->user->getProject()->ProjectKey] : $this->defaultContentLanguage;
     }
-    
+
     public function getMataAssetUrl() {
         return $this->mataAssetUrl;
     }
