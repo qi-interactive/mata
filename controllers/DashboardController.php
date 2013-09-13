@@ -23,29 +23,22 @@ class DashboardController extends MataController {
         /**
          * @var apiPlusService $service
          */
-        $plus = Yii::app()->googleApis->serviceFactory('Plus');
+        $plus = Yii::app()->googleApis->serviceFactory('Analytics');
 
         /**
          * @var apiClient $client
          */
         $client = Yii::app()->googleApis->client;
 
-        try {
-            if (!isset(Yii::app()->session['auth_token']) || is_null(Yii::app()->session['auth_token']))
-            // You want to use a persistence layer like the DB for storing this along
-            // with the current user
-                Yii::app()->session['auth_token'] = $client->authenticate();
-            else
-                $activities = '';
-            $client->setAccessToken(Yii::app()->session['auth_token']);
-            $activities = $plus->activities->listActivities('me', 'public');
-            print 'Your Activities: <pre>' . print_r($activities, true) . '</pre>';
-        } catch (Exception $e) {
-            // This needs some love as not every exception means that the token
-            // was invalidated
-            Yii::app()->session['auth_token'] = null;
-            throw $e;
-        }
+        if (!isset(Yii::app()->session['auth_token']) || is_null(Yii::app()->session['auth_token']))
+        // You want to use a persistence layer like the DB for storing this along
+        // with the current user
+            Yii::app()->session['auth_token'] = $client->authenticate();
+        else
+            $activities = '';
+        $client->setAccessToken(Yii::app()->session['auth_token']);
+        $activities = $plus->activities->listActivities('me', 'public');
+        print 'Your Activities: <pre>' . print_r($activities, true) . '</pre>';
     }
 
 }
