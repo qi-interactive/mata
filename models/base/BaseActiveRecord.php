@@ -12,6 +12,11 @@
  */
 class BaseActiveRecord extends CActiveRecord {
 
+
+    public function getFirstError() {
+        return $this->errors[0];
+    }
+
     public function beforeValidate() {
 
         $this->manageDates();

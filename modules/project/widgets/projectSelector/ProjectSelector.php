@@ -31,7 +31,7 @@ class ProjectSelector extends BaseWidget {
     public function run() {
         $this->renderDefaultView(__FILE__, array(
             "activeProjectIds" => $this->activeProjectIds
-                ), "project.widgets");
+                ), "mata.modules.project.widgets");
     }
 
 }

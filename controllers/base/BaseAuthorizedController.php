@@ -33,5 +33,3 @@ class BaseAuthorizedController extends BaseApplicationController {
     }
 
 }
-
-?>
