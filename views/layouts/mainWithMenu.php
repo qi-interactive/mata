@@ -46,13 +46,6 @@ $this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts")
         </ul>
     </div>
 
-<!--            <li id="side-menu-dashboard"><a onclick="hideSubmenu()" href='/mata/dashboard'><img src='/images/layout/icons/map-icon.png' /></a></li>
-            <li id="side-menu-content"><a href='javascript:void(0)' onclick="showSideMenu('content')"><img src='/images/layout/icons/note-icon.png' /></a></li>
-            <li id="side-menu-profiles"><a href='javascript:void(0)' onclick="showSideMenu('profiles')"><img src='/images/layout/icons/user-<?php echo $this->user->Sex ?>-icon.png' /></a></li>
-            <li id="side-menu-forms"><a href='#'><img src='/images/layout/icons/texting-icon.png' /></a></li>
-            <li id="side-menu-settings"><a href='javascript:void(0)' onclick="showSideMenu('settings')"><img src='/images/layout/icons/settings-icon.png' /></a></li>
-            <li id="side-menu-help"><a href='#'><img src='/images/layout/icons/loudspeaker-icon.png' /></a></li>
-        </ul>-->
 
     <?php foreach (MataModuleGroup::model()->with("modules")->findAll() as $moduleGroup): ?>
         <div id="sub-menu-<?php echo strtolower($moduleGroup->Name) ?>" class="sub-menu">
