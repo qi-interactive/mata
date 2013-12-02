@@ -26,7 +26,7 @@ return array(
             'captcha' => array('registration' => false)
         ),
         "media" => array(
-            "class" => "mata.modules.media.MediaModule",
+            "class" => "application.modules.media.MediaModule",
             "baseMediaPath" => "http://media.icodesign.com/"
         ),
         "mataDashboard" => array(
