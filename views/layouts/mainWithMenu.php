@@ -8,6 +8,10 @@ $this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts")
         <ul class="menu-item-container">
             <?php
             foreach (MataModuleGroup::model()->with("modules")->findAll() as $moduleGroup):
+
+                if (count($moduleGroup->modules) == 0)
+                    continue;
+
                 $module = Yii::app()->getModule($moduleGroup->modules[0]->Name);
 
                 if ($module == null)
@@ -18,7 +22,7 @@ $this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts")
                     ?>
                     <li class='menu-item'><a href="<?php echo current($module->getNav()) ?>">
                             <?php
-                          
+
                             echo CHtml::image($assetURL . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "module-large-icon.png") .
                             "<span class='label'>" . Yii::t(strtolower($module->Name), $module->Name) . "</span>";
                             ?>

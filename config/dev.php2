@@ -69,7 +69,7 @@ return array(
 			'password' => 'CHcxjvLs',
 			'charset' => 'utf8',
 			'enableParamLogging' => true
-			),
+				),
 		'clientScript' => array(
 			'packages' => array(
 				'bbq' => array(
