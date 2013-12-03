@@ -62,14 +62,7 @@ return array(
             // // This is the API key for 'Simple API Access'
 			'developerKey' => 'AIzaSyBgbvhN5-awrJnZWIOu-ks276-UrwE9YrQ',
 			),
-		'matadb' => array(
-			'connectionString' => 'mysql:host=83.170.88.249;dbname=yii-app-mata-template',
-			'emulatePrepare' => true,
-			'username' => 'yiimataapptempla',
-			'password' => 'CHcxjvLs',
-			'charset' => 'utf8',
-			'enableParamLogging' => true
-			),
+		'matadb' => array(),
 		'clientScript' => array(
 			'packages' => array(
 				'bbq' => array(
