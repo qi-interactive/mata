@@ -30,7 +30,7 @@
             })
 
             $(document).on("click.mListView", ".list-view-item", function(e) {
-                if (navigator.appVersion.indexOf("Mac") != -1 && e.metaKey ||
+                if ((navigator.appVersion.indexOf("Mac") != -1 && e.metaKey) ||
                         e.ctrlKey) {
                     $.fn.mListView.toggleItem($(this));
                     $(document).trigger("selection-changed");
