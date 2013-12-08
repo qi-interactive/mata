@@ -99,7 +99,7 @@ class AdminController extends MataModuleController {
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
      */
-    public function actionUpdate() {
+    public function actionUpdate($id) {
 
         $model = $this->loadModel();
         $profile = $model->profile;
