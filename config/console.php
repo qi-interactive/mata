@@ -4,29 +4,12 @@
 // Any writable CConsoleApplication properties can be configured here.
 return array(
   'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
+
   'name' => 'My Console Application',
     // application components
   'components' => array(
-   'matadb' => array(
-    'class' => 'system.db.CDbConnection',
-    'connectionString' => 'mysql:host=83.170.88.249;dbname=yii-app-mata-template',
-    'emulatePrepare' => true,
-    'username' => 'yiimataapptempla',
-    'password' => 'CHcxjvLs',
-    'charset' => 'utf8',
-    'enableParamLogging' => true
+    'matadb' => array(),
     ),
-   ),
-  'commandMap'=>array(
-   'migrate'=>array(
-     'class'=>'system.cli.commands.MigrateCommand',
-     'migrationPath'=>'application.migrations',
-     'migrationTable'=>'matainstallationmigration',
-     'connectionID'=>'matadb',
-     'interactive'=> 0,
-     'templateFile'=>'application.migrations.template',
-     )
-   ),
   'modules' => array(
     'user' => array(
             # encrypting method (php hash function)
