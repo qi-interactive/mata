@@ -10,15 +10,14 @@
  *
  * @author wichura
  */
-class MataController extends BaseAuthorizedController {
+class MataController extends BaseApplicationController {
 
-    public $layout = "mata.views.layouts.mainWithMenu";
+    public $layout = "mata.views.layouts.main";
 
     public function filterBeforeExec($filterChain) {
         $this->addClientScript();
 
         parent::filterBeforeExec($filterChain);
-        $this->setLanguage();
     }
 
     private function addClientScript() {
@@ -33,9 +32,4 @@ class MataController extends BaseAuthorizedController {
         $cs->registerCssFile(Yii::app()->mataAssetUrl . '/css/layout.css');
         $cs->registerCssFile(Yii::app()->mataAssetUrl . '/css/cmsFormContent.css');
     }
-
-    private function setLanguage() {
-        Yii::app()->language = Yii::app()->user->project->Language;
-    }
-
 }

@@ -13,18 +13,18 @@ return array(
 		'mata.modules.project.models.*',
 		),
 	'modules' => array(
-		'user' => array(
-			'class' => "mata.modules.user.UserModule",
-			'hash' => 'sha1',
-			'sendActivationMail' => false,
-			'activeAfterRegister' => true,
-			'autoLogin' => false,
-			'tableUsers' => "user",
-			"tableProfiles" => "userprofile",
-			"tableProfileFields" => "userprofilefield",
-			'returnUrl' => "/",
-			'captcha' => array('registration' => false)
-			),
+		// 'user' => array(
+		// 	'class' => "mata.modules.user.UserModule",
+		// 	'hash' => 'sha1',
+		// 	'sendActivationMail' => false,
+		// 	'activeAfterRegister' => true,
+		// 	'autoLogin' => false,
+		// 	'tableUsers' => "user",
+		// 	"tableProfiles" => "userprofile",
+		// 	"tableProfileFields" => "userprofilefield",
+		// 	'returnUrl' => "/",
+		// 	'captcha' => array('registration' => false)
+		// 	),
 		"media" => array(
 			"class" => "application.modules.media.MediaModule",
 			"baseMediaPath" => "http://media.icodesign.com/"
@@ -44,9 +44,9 @@ return array(
 			)
 		),
 	'components' => array(
-		'user' => array(
-			'class' => 'mata.modules.user.components.WebUser',
-			),
+		// 'user' => array(
+		// 	'class' => 'mata.modules.user.components.WebUser',
+		// 	),
 		'keyValue' => array(
 			"class" => "mata.extensions.KeyValue"
 			),

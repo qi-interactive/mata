@@ -13,10 +13,12 @@
 class BaseAuthorizedController extends BaseApplicationController {
 
     protected $user;
+    public $layout = "mata.views.layouts.mainWithMenu";
 
     public function filterBeforeExec($filterChain) {
         $this->authorize();
         parent::filterBeforeExec($filterChain);
+        $this->setLanguage();
     }
 
     private function authorize() {
@@ -31,5 +33,10 @@ class BaseAuthorizedController extends BaseApplicationController {
 
         $this->user = Yii::app()->user;
     }
+    
+    private function setLanguage() {
+        Yii::app()->language = Yii::app()->user->project->Language;
+    }
+
 
 }
