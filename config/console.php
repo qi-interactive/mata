@@ -8,7 +8,15 @@ return array(
   'name' => 'My Console Application',
     // application components
   'components' => array(
-    'matadb' => array(),
+    'matadb' => array(
+			'class' => 'system.db.CDbConnection',
+			'connectionString' => 'mysql:host=37.123.117.163;dbname=mataframework.com',
+			'emulatePrepare' => true,
+			'username' => 'mataframework',
+			'password' => 'TKPCPed7',
+			'charset' => 'utf8',
+			'enableParamLogging' => true
+			),
     ),
   'modules' => array(
     'user' => array(

@@ -26,18 +26,30 @@ class MataCommand extends CConsoleCommand {
 			$this->emptyLine()->printLine("Terminating. Have a nice day!")->emptyLine();
 
 
-		$dbName = "yii-app-mata-template";
-		$host = "83.170.88.249";
-		$username = "yiimataapptempla";
-		$password = "CHcxjvLs";
+		if ($this->hasDevDbDetailsPopulated() == false) {
+			$this->addDatabaseDetails();
+		}
 
 
+		$this->printLine("Launching migrations tool")->emptyLine()->emptyLine();
+		$this->runMigration();
+		$this->installPresetModules();
+
+		$this->emptyLine()->emptyLine()->printLine("Thank you for installing Mata.")->printLine("You can now access it using this URL: ");
+		$this->emptyLine();
+	}
+
+	private function hasDevDbDetailsPopulated() {
+		return isset(Yii::app()->matadb);
+	}
+
+	private function addDatabaseDetails() {
 		do {
 
-			// $host = $this->prompt("Host (IP address or URL): ");
-			// $dbName = $this->prompt("Database Name: ");
-			// $username = $this->prompt("Username: ");
-			// $password = $this->prompt("Password: ");
+			$host = $this->prompt("Host (IP address or URL): ");
+			$dbName = $this->prompt("Database Name: ");
+			$username = $this->prompt("Username: ");
+			$password = $this->prompt("Password: ");
 
 			echo "Testing connection: ";
 		} while ($this->checkDbCredentials($host, $dbName, $username, $password) == false);
@@ -51,16 +63,7 @@ class MataCommand extends CConsoleCommand {
 		}
 
 		$this->printLine("Configuration written to dev.php and console.php file");
-
-		$this->printLine("Launching migrations tool")->emptyLine()->emptyLine();
-		$this->runMigration();
-		$this->installPresetModules();
-
-		$this->emptyLine()->emptyLine()->printLine("Thank you for installing Mata.")->printLine("You can now access it using this URL: ");
-		$this->emptyLine();
 	}
-
-
 
 	private function installPresetModules() {
 
@@ -74,10 +77,6 @@ class MataCommand extends CConsoleCommand {
 				$this->installModule($module);
 			}
 		}
-
-
-
-
 	}
 
 	private function runModuleInstaller($moduleId) {
