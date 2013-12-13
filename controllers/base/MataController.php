@@ -12,7 +12,7 @@
  */
 class MataController extends BaseApplicationController {
 
-    public $layout = "mata.views.layouts.main";
+    public $layout = "mata.views.layouts.mainWithMenu";
 
     public function filterBeforeExec($filterChain) {
         $this->addClientScript();

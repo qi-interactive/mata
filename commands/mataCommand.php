@@ -22,8 +22,10 @@ class MataCommand extends CConsoleCommand {
 
 		$response = $this->prompt("Would you like to install MATA? (yes|no)");
 
-		if ($response != "yes")
+		if ($response != "yes") {
 			$this->emptyLine()->printLine("Terminating. Have a nice day!")->emptyLine();
+			Yii::app()->end();
+		}
 
 
 		if ($this->hasDevDbDetailsPopulated() == false) {
@@ -38,6 +40,96 @@ class MataCommand extends CConsoleCommand {
 		$this->emptyLine()->emptyLine()->printLine("Thank you for installing Mata.")->printLine("You can now access it using this URL: ");
 		$this->emptyLine();
 	}
+
+	public function actionDev($args = array()) {
+		if (empty($args) == false) {
+			list($type, $name) = $args;
+
+			if ($type == "module") {
+				$this->installScaffoldingModule();
+			} else {
+				$this->printLine("Unknown operation install $type");
+			}
+			return;
+		}
+	}
+
+	private function installScaffoldingModule() {
+		$this->printLine("This utility will create a basic module ready for further development");
+		$response = $this->prompt("How is the new module called?");
+
+		$this->installModule("scaffolding");
+
+		$this->printLine("For the time being you need to rename all scaffolding to $response");
+		
+		// $modulePath = __DIR__ . DIRECTORY_SEPARATOR .  ".." .
+		// DIRECTORY_SEPARATOR . "modules" . DIRECTORY_SEPARATOR . "scaffolding";
+
+
+		// $renamedModulePath = str_replace("scaffolding", "kasia", $modulePath);
+		// rename($modulePath,  $renamedModulePath);
+
+
+
+		// $filesAndFolders = $this->find_all_files($renamedModulePath);
+
+		// // $this->renameScaffoldingModule($filesAndFolders, $renamedModulePath);
+
+
+		// if ($handle = opendir($renamedModulePath)) { 
+		// 	while (false !== ($fileName = readdir($handle))) {     
+		// 		$newName = str_replace("scaffolding","kasia",$fileName);
+		// 		rename($renamedModulePath . $fileName, $renamedModulePath . $newName);
+		// 	}
+		// 	closedir($handle);
+		// }
+
+
+		// $di = new RecursiveDirectoryIterator($renamedModulePath);
+		// foreach (new RecursiveIteratorIterator($di) as $filename => $file) {
+
+		// 	if ($file->isFile()) {
+
+		// 	} else {
+		// 		$this->printLine($file->getPath()); 
+		// 		rename($file->getPath(),  str_replace("scaffolding", "kasia", $file->getPath()));
+		// 	}
+		// 	// $this->printLine($filename . ' - ' . $file->isFile() . ' bytes <br/>');
+		// }
+	}
+
+	private function renameScaffoldingModule($filesAndFolders, $renamedModulePath) {
+		
+
+		$filesAndFolders = array_reverse($filesAndFolders);
+
+		print_r($filesAndFolders);
+		foreach ($filesAndFolders as $file) {
+
+			if (file_exists($file) && stripos($file, "scaffolding") > -1) {
+				rename($file,  str_replace("scaffolding", "kasia", $file));
+			} else {
+				// regenerate the list and run this again!
+				$this->renameScaffoldingModule($this->find_all_files($renamedModulePath), $renamedModulePath);
+				return;
+			}
+		}
+	}
+
+	function find_all_files($dir) 
+	{ 
+		$root = scandir($dir); 
+		foreach($root as $value) 
+		{ 
+			if($value === '.' || $value === '..') {continue;} 
+			if(is_file("$dir/$value")) {$result[]="$dir/$value";continue;} 
+			foreach($this->find_all_files("$dir/$value") as $value) 
+			{ 
+				$result[]=$value; 
+			} 
+		} 
+		return $result; 
+	} 
 
 	private function hasDevDbDetailsPopulated() {
 		return isset(Yii::app()->matadb);
@@ -204,7 +296,7 @@ class MataCommand extends CConsoleCommand {
 	private function installModule($moduleId) {
 		$this->printLine("Checking availibility of $moduleId");
 
-		if ($this->urlExists("http://matacms.localhost/modules/$moduleId.mata")) {
+		if ($this->urlExists("http://mataframework.localhost/modules/$moduleId.mata")) {
 			$agreeToInstall = $this->prompt("$moduleId verified. Would you like to install? (yes|no)");
 
 			if ($agreeToInstall == "yes") {
@@ -224,12 +316,19 @@ class MataCommand extends CConsoleCommand {
 					$zip->close();
 
 					unlink($modulePath);
+
+					// verify we have the folder 
+					if (file_exists($modulesFolderPath) == false) {
+						$this->printLine("No folder created after unzipping!");
+						Yii::app()->end();
+					}
+
 					$this->printLine("Module uncompressed. Running module installation");
 					$this->runModuleInstaller($moduleId);
 
 					$this->printLine("Module $moduleId installed successfully. Have a nice day!")->emptyLine();
 				} else {
-					$this->printLine("Could not unzip MATA module. Sorry!");
+					$this->printLine("Could not unzip MATA module. Sorry! Error code " . $res);
 				}
 
 			} else {
@@ -251,7 +350,7 @@ class MataCommand extends CConsoleCommand {
 	}
 
 	private function getModule($moduleId) {
-		return $this->callAPI("GET", "http://matacms.localhost/modules/$moduleId.mata", false);
+		return $this->callAPI("GET", "http://mataframework.localhost/modules/$moduleId.mata", false);
 	}
 
 	function urlExists($url=NULL)
