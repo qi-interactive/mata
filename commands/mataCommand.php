@@ -41,6 +41,34 @@ class MataCommand extends CConsoleCommand {
 		$this->emptyLine();
 	}
 
+	public function actionCompress($args = array()) {
+		if (empty($args) == false) {
+			list($type, $name) = $args;
+
+			if ($type == "module") {
+				$this->compressModule($name);
+			} else {
+				$this->printLine("Unknown operation compress $type");
+			}
+			return;
+		}
+	}
+
+	private function compressModule($name) {
+		$folderPath = Yii::getPathOfAlias("application.modules.$name");
+		
+		if (file_exists($folderPath) == false) {
+			$this->printLine("Could not access folder $folderPath. Please check if the path exists and try again");
+			exit;
+		}
+
+		if ($this->zip($folderPath, "$folderPath.mata") == false) {
+			$this->printLine("Could not compress module $name");
+		} else {
+			$this->printLine("Compressed module $name");
+		}
+	}
+
 	public function actionDev($args = array()) {
 		if (empty($args) == false) {
 			list($type, $name) = $args;
@@ -399,6 +427,51 @@ class MataCommand extends CConsoleCommand {
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
 		return curl_exec($curl);
+	}
+
+	function zip($source, $destination)
+	{
+		if (!extension_loaded('zip') || !file_exists($source)) {
+			return false;
+		}
+
+		$zip = new ZipArchive();
+		if (!$zip->open($destination, ZIPARCHIVE::CREATE)) {
+			return false;
+		}
+
+		$source = str_replace('\\', '/', realpath($source));
+
+		if (is_dir($source) === true)
+		{
+			$files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source), RecursiveIteratorIterator::SELF_FIRST);
+
+			foreach ($files as $file)
+			{
+				$file = str_replace('\\', '/', $file);
+
+	            // Ignore "." and ".." folders
+				if( in_array(substr($file, strrpos($file, '/')+1), array('.', '..')) )
+					continue;
+
+				$file = realpath($file);
+
+				if (is_dir($file) === true)
+				{
+					$zip->addEmptyDir(str_replace($source . '/', '', $file . '/'));
+				}
+				else if (is_file($file) === true)
+				{
+					$zip->addFromString(str_replace($source . '/', '', $file), file_get_contents($file));
+				}
+			}
+		}
+		else if (is_file($source) === true)
+		{
+			$zip->addFromString(basename($source), file_get_contents($source));
+		}
+
+		return $zip->close();
 	}
 }
 
