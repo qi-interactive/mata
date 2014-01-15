@@ -62,15 +62,7 @@ return array(
             // // This is the API key for 'Simple API Access'
 			'developerKey' => 'AIzaSyBgbvhN5-awrJnZWIOu-ks276-UrwE9YrQ',
 			),
-		'matadb' => array(
-			'class' => 'system.db.CDbConnection',
-			'connectionString' => 'mysql:host=37.123.117.163;dbname=mataframework.com',
-			'emulatePrepare' => true,
-			'username' => 'mataframework',
-			'password' => 'TKPCPed7',
-			'charset' => 'utf8',
-			'enableParamLogging' => true
-			),
+		'matadb' => array(),
 		'clientScript' => array(
 			'packages' => array(
 				'bbq' => array(

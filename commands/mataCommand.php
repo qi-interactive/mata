@@ -160,7 +160,12 @@ class MataCommand extends CConsoleCommand {
 	} 
 
 	private function hasDevDbDetailsPopulated() {
-		return isset(Yii::app()->matadb);
+
+		try {
+			return isset(Yii::app()->matadb);
+		} catch(CException $e) {
+			return false;
+		}
 	}
 
 	private function addDatabaseDetails() {
