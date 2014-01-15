@@ -1,6 +1,7 @@
 <?php
+
 $this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts") . DIRECTORY_SEPARATOR . "mataMain.php") ?
-    'application.views.layouts.main' : 'mata.views.layouts.mataMain');
+    'application.views.layouts.mataMain' : 'mata.views.layouts.mataMain');
     ?>
 
     <div id="side-menu-container">
@@ -46,7 +47,7 @@ $this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts")
                     <footer>
                         <?php if (Yii::app()->user->isGuest != true) { ?>
                             <a id="project-name" href='javascript:void(0)' onclick='mata.switchProject()'><?php echo Yii::app()->user->project->Name ?></a>
-                            <a href="/user/logout"> <?php echo Yii::t("mata", "You are") . " " . Yii::app()->user->FirstName . " " . Yii::app()->user->LastName ?></a>
+                            <a href="/user/logout"> <?php echo Yii::t("mata", "You are") . " " . Yii::app()->user->username ?></a>
                             <?php } else { ?>
 
                             <p id="project-name" href='javascript:void(0)'><?php echo Yii::app()->name ?></p>

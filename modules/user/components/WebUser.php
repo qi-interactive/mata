@@ -46,12 +46,14 @@ class WebUser extends CWebUser {
     public function updateSession() {
         $user = Yii::app()->getModule('user')->user($this->id);
         $this->name = $user->username;
+
+        $profile = isset($user->profile) ? $user->profile->getAttributes() : array();
         $userAttributes = CMap::mergeArray(array(
                     'email' => $user->email,
                     'username' => $user->username,
                     'create_at' => $user->create_at,
                     'lastvisit_at' => $user->lastvisit_at,
-                        ), $user->profile->getAttributes());
+                        ), $profile);
         foreach ($userAttributes as $attrName => $attrValue) {
             $this->setState($attrName, $attrValue);
         }
@@ -87,8 +89,8 @@ class WebUser extends CWebUser {
         } else {
 
             // get last one used
-            if (($lastProjectSelected = Yii::app()->keyValue->get("last-selected-project-" . $this->id)) != null)
-                $project = Project::model()->findByPk($lastProjectSelected);
+            // if (($lastProjectSelected = Yii::app()->keyValue->get("last-selected-project-" . $this->id)) != null)
+            //     $project = Project::model()->findByPk($lastProjectSelected);
 
             // get any the user is assigned to
             if ($project == null)
@@ -98,10 +100,14 @@ class WebUser extends CWebUser {
         if ($project == null)
             throw new CHttpException("No project set for userId: " . $this->id);
 
-        Yii::app()->keyValue->set("last-selected-project-" . $this->id, $project->Id);
+        // Yii::app()->keyValue->set("last-selected-project-" . $this->id, $project->Id);
 
 
         $this->setState("project", $project);
+    }
+
+    public function getProject() {
+        return $this->getState("project");
     }
 
 }
