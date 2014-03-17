@@ -11,7 +11,7 @@
     ));
     ?></p>
 <?php
-$this->widget('mata.widgets.MListView', array(
+$this->widget('mata.widgets.grid.MListView', array(
     'id' => "$modelNameLowerCase-grid",
     'dataProvider' => $model->search(),
     'itemView' => $this->getViewFile("_view") ? "_view" : "mata.views.module._view",
