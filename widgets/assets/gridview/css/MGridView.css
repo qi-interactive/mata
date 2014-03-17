@@ -1,3 +1,36 @@
-body {
-	background: red !important;
+.grid-view table th {
+	font-size: 14px;
+	background: #666;
+	color: #F5F5F5;
+	text-align: center;
+}
+
+.grid-view table {
+	border: 1px solid #666;
+	border-collapse: separate;
+	border-left: 0;
+	table-layout: fixed;
+	margin: 10px 0;
+}
+
+.grid-view table tbody {
+	display: table-row-group;
+	vertical-align: middle;
+	border-collapse: separate;
+}
+
+.grid-view th, .grid-view td {
+	border-left: 1px solid #666;
+	padding: 6px;
+	vertical-align: middle;
+	line-height: 16px;
+}
+
+.grid-view td {
+	border-top: 1px solid #666;
+}
+
+.grid-view tr {
+	display: table-row;
+	vertical-align: inherit;
 }
