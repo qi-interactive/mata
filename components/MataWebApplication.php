@@ -26,7 +26,6 @@ class MataWebApplication extends CWebApplication {
         ));
 
         parent::__construct($config);
-
         $this->initializeMataModules();
 
         $this->mataAssetUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('mata') . DIRECTORY_SEPARATOR . "assets", false, -1, YII_DEBUG);
@@ -64,7 +63,7 @@ class MataWebApplication extends CWebApplication {
     }
 
     public function getDb() {
-        return $this->getComponent('matadb');
+        return $this->getComponent('db');
     }
 
     public function setContentLanguage($contentLanguage) {
