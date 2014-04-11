@@ -92,18 +92,6 @@ $this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts")
                     </div>
                     <script>
 
-                        $(window).ready(function() {
-                            $("#side-menu a").first().trigger("click");
-                        // Requires jQuery!
-
-                        jQuery.ajax({
-                            url: "http://jira.qi-interactive.com/s/en_UKevdmcy-418945332/812/4/1.2.7/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector-embededjs/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector-embededjs.js?collectorId=c33a832b",
-                            type: "get",
-                            cache: true,
-                            dataType: "script"
-                        });
-
-                    })
                         $("#side-menu-container").find("li a").bind("click", function() {
 
 

@@ -37,8 +37,15 @@ class MataWebApplication extends CWebApplication {
         
         // This logic means file overwrites db settings - is this correct?
         foreach ($modules as $module) {
-            if (!$this->hasModule($module["Name"]))
-                $this->setModules(array($module["Name"] => json_decode($module["Config"], true)));
+            if (!$this->hasModule($module["Name"])) {
+
+                $config = json_decode($module["Config"], true);
+
+                if ($config == null || !$config["class"])
+                    throw new CHttpException(500, "Missing class definition for " . $module["Name"]);
+
+                $this->setModules(array($module["Name"] => $config));
+            }
         }
     }
 
@@ -62,8 +69,8 @@ class MataWebApplication extends CWebApplication {
         return parent::createController($route, $owner);
     }
 
-    public function getDb() {
-        return $this->getComponent('db');
+    public function getMataDb() {
+        return $this->getComponent('matadb');
     }
 
     public function setContentLanguage($contentLanguage) {

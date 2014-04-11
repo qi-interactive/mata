@@ -19,6 +19,10 @@ class MataActiveRecord extends BaseActiveRecord {
         );
     }
 
+    public function getDbConnection() {
+        return Yii::app()->getMataDb();
+    }
+
     public function defaultScope() {
 
         $scope = array();
