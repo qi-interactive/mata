@@ -16,6 +16,8 @@ class BaseAuthorizedController extends BaseApplicationController {
     public $layout = "mata.views.layouts.mainWithMenu";
 
     public function filterBeforeExec($filterChain) {
+        echo 111;
+        exit;
         $this->authorize();
         parent::filterBeforeExec($filterChain);
         $this->setLanguage();

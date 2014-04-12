@@ -38,6 +38,11 @@ class VersionedModelBehavior extends CActiveRecordBehavior {
     }
 
     private function getDocumentId() {
+
+        if (is_array($this->getOwner()->getPrimaryKey())) {
+            print_r($this->getOwner()->getPrimaryKey());
+            exit;
+        }
         return get_class($this->getOwner()) . $this->getOwner()->getPrimaryKey();
     }
 
@@ -91,7 +96,7 @@ class VersionedModelBehavior extends CActiveRecordBehavior {
  * The followings are the available model relations:
  * @property Cmsuser $creatorUser
  */
-class DocumentVersion extends BaseActiveRecord {
+class DocumentVersion extends MataActiveRecord {
 
     /**
      * Returns the static model of the specified AR class.

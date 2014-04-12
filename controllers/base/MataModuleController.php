@@ -20,12 +20,16 @@ abstract class MataModuleController extends MataController {
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
     public function actionCreate() {
+
+
         $model = $this->getModel();
         $model = new $model;
 
         $modelClassName = get_class($this->getModel());
+
         // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
+        $this->performAjaxValidation($model);
+
 
         if (isset($_POST[$modelClassName])) {
             $model->attributes = $_POST[$modelClassName];

@@ -16,7 +16,7 @@ class BaseController extends CController {
             'beforeBaseExec',
             'afterBaseExec',
             'beforeExec'
-        );
+            );
     }
 
     public function actionIndex() {
@@ -104,5 +104,16 @@ class BaseController extends CController {
 
         Yii::app()->end();
     }
+}
 
+/**
+ * Pretty print_r
+ * @param  [type] $obj [description]
+ * @return [type]      [description]
+ */
+function pprint_r($obj, $exit = true) {
+    echo "<pre>" . htmlspecialchars((print_r($obj, true))) . "</pre>";
+
+    if ($exit)
+        Yii::app()->end();
 }

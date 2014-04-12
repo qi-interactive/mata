@@ -10,7 +10,7 @@
  *
  * @author wichura
  */
-class MataController extends BaseApplicationController {
+class MataController extends BaseAuthorizedController {
 
     public $layout = "mata.views.layouts.mainWithMenu";
 
