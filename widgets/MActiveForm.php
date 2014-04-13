@@ -9,12 +9,12 @@ class MActiveForm extends CActiveForm {
     public static $coreTypes=array(
         'text'=>'textField',
         'password'=>'activePasswordField',
-        'textarea'=>'activeTextArea',
+        'textarea'=>'textArea',
         'file'=>'activeFileField',
         'radio'=>'activeRadioButton',
         'checkbox'=>'activeCheckBox',
         'listbox'=>'activeListBox',
-        'dropdownlist'=>'activeDropDownList',
+        'dropdownlist'=>'dropDownList',
         'checkboxlist'=>'activeCheckBoxList',
         'radiolist'=>'activeRadioButtonList',
         'url'=>'activeUrlField',
@@ -30,13 +30,15 @@ class MActiveForm extends CActiveForm {
     protected function extractType($dbType)
     {
         if(strncmp($dbType,'enum',4)===0)
-            return 'text';
+            return 'dropdownlist';
         else if(strpos($dbType,'timestamp')!==false || strpos($dbType,'datetime')!==false)
             return 'timestamp';
         else if(strpos($dbType,'float')!==false || strpos($dbType,'double')!==false)
             return 'double';
         else if(strpos($dbType,'bool')!==false)
             return 'boolean';
+        else if(strpos($dbType,'text')!==false)
+            return 'textarea';
         else if(strpos($dbType,'int')===0 && strpos($dbType,'unsigned')===false || preg_match('/(bit|tinyint|smallint|mediumint)/',$dbType))
             return 'number';
         else
@@ -46,7 +48,7 @@ class MActiveForm extends CActiveForm {
 
     public function run() {
 
-        foreach ($this->model->getAttributes() as $attribute => $value) {
+        foreach ($this->model->attributeNames() as $attribute) {
 
             echo CHtml::openTag("div", array("class" => "row"));
 
@@ -57,18 +59,16 @@ class MActiveForm extends CActiveForm {
             echo $this->error($this->model,$attribute); 
 
             $method=self::$coreTypes[$this->extractType($this->getColumnByNameFromModel($this->model, $attribute)->dbType)];
-            
+
             if (is_array($method))
                 $this->widget($method["widget"], array(
                     "model" => $this->model,
                     "attribute" => $attribute
                     ));
             else if(strpos($method,'List')!==false)
-                echo "";
-                // return $this->$method($this->model, $this->name, $this->items, $this->name);
+                echo $this->$method($this->model, $attribute, $this->getValuesForEnum($this->model, $attribute));
             else
                 echo $this->$method($this->model, $attribute);
-
 
             echo CHtml::closeTag("div");
 
@@ -86,6 +86,24 @@ class MActiveForm extends CActiveForm {
 
         echo CHtml::submitButton($this->model->isNewRecord ? 'Create' : 'Save');
         echo CHtml::closeTag("div");
+    }
+
+    private function getValuesForEnum($model, $columnName) {
+        $column = $this->getColumnByNameFromModel($model, $columnName);
+
+        // Looks like enum('United Kingdom','United States')
+        $dbType = $column->dbType;
+
+        preg_match("/enum\((.*)\)/", $dbType, $values);
+        
+
+        // Now we have array(United Kingdom, United States);
+        $values = preg_replace("/\'/", "", $values[1]);
+
+        $values =  explode(",", $values);
+
+        // now we end up having (array(United Kingdom => United States => United States))
+        return array_combine($values, $values);
     }
 
     private function getColumnByNameFromModel($model, $columnName) {

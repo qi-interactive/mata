@@ -16,60 +16,36 @@ class MataActiveRecord extends BaseActiveRecord {
         return array(
             "versions" => "mata.behaviors.VersionedModelBehavior",
             "exportToCSV" => "mata.behaviors.ExportToCSVBehavior"
-        );
+            );
     }
 
     public function getDbConnection() {
         return Yii::app()->getMataDb();
     }
 
-    public function defaultScope() {
-
-        $scope = array();
-        if ($this->hasAttribute("ProjectKey"))
-            $scope = array(
-                "condition" => "ProjectKey = '" . Yii::app()->user->project->ProjectKey . "'"
-            );
-
-        return $scope;
-    }
-
     public function beforeValidate() {
-        $this->setProjectKey();
-        $this->manageCMSUser();
-        $this->manageContentLanguage();
+        $this->manageMataUser();
         return parent::beforeValidate();
     }
 
-    protected function manageCMSUser() {
+    protected function manageMataUser() {
 
-        if ($this->hasAttribute("CreatorUserId") &&
-                $this->CreatorUserId == null && $this->getIsNewRecord()) {
-            $this->CreatorUserId = Yii::app()->user->getId();
-        }
-
-        if ($this->hasAttribute("ModifierUserId") && $this->ModifierUserId == null)
-            $this->ModifierUserId = Yii::app()->user->getId();
+        if ($this->hasAttribute("CreatorMataUserId") &&
+            $this->CreatorMataUserId == null && $this->getIsNewRecord()) {
+            $this->CreatorMataUserId = Yii::app()->user->getId();
     }
 
-    protected function setProjectKey() {
-        if ($this->hasAttribute("ProjectKey") && $this->ProjectKey == null) {
-            $this->ProjectKey = Yii::app()->user->getProject()->ProjectKey;
-        }
-    }
+    if ($this->hasAttribute("ModifierMataUserId") && $this->ModifierMataUserId == null)
+        $this->ModifierMataUserId = Yii::app()->user->getId();
+}
 
-    private function manageContentLanguage() {
-        if ($this->hasAttribute("ContentLanguage") && $this->ContentLanguage == null)
-            $this->ContentLanguage = Yii::app()->getContentLanguage();
-    }
+public function getSortableAttributes() {
+    return array();
+}
 
-    public function getSortableAttributes() {
-        return array();
-    }
-
-    public function getLabel() {
-        return $this->getPrimaryKey();
-    }
+public function getLabel() {
+    return $this->getPrimaryKey();
+}
 
 }
 

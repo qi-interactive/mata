@@ -28,8 +28,8 @@ class VersionedModelBehavior extends CActiveRecordBehavior {
             "ModelAttributes" => serialize($this->getOwner()->attributes),
             "IsPublished" => Yii::app() instanceof CConsoleApplication ||
             (Yii::app()->user->checkAccess("publisher") &&
-            Yii::app()->getRequest()->getParam(self::$REQUEST_KEY_SAVE_MODE, 0) == self::$REQUEST_VALUE_PUBLISH_MODE)
-        );
+                Yii::app()->getRequest()->getParam(self::$REQUEST_KEY_SAVE_MODE, 0) == self::$REQUEST_VALUE_PUBLISH_MODE)
+            );
 
         if ($version->save() === false) {
             // TODO Implement better error handling, add reason
@@ -39,45 +39,45 @@ class VersionedModelBehavior extends CActiveRecordBehavior {
 
     private function getDocumentId() {
 
-        if (is_array($this->getOwner()->getPrimaryKey())) {
-            print_r($this->getOwner()->getPrimaryKey());
-            exit;
-        }
-        return get_class($this->getOwner()) . $this->getOwner()->getPrimaryKey();
+        $pk = $this->getOwner()->getPrimaryKey();
+        if (is_array($pk))
+            $pk = implode('-', $pk);
+
+        return get_class($this->getOwner()) . $pk;
     }
 
     public function getLatestVersion() {
         return DocumentVersion::model()->findByAttributes(array(
-                    "DocumentId" => $this->getDocumentId()
-                        ), array(
-                    "order" => "Revision DESC"
-                ));
+            "DocumentId" => $this->getDocumentId()
+            ), array(
+            "order" => "Revision DESC"
+            ));
     }
 
     public function getRevision($revision) {
         return DocumentVersion::model()->findByAttributes(array(
-                    "DocumentId" => $this->getDocumentId(),
-                    "Revision" => $revision
-                        ), array(
-                    "order" => "Revision DESC"
-                ));
+            "DocumentId" => $this->getDocumentId(),
+            "Revision" => $revision
+            ), array(
+            "order" => "Revision DESC"
+            ));
     }
 
     public function getAllVersions() {
         return DocumentVersion::model()->findAllByAttributes(array(
-                    "DocumentId" => $this->getDocumentId()
-                        ), array(
-                    "order" => "Revision DESC"
-                ));
+            "DocumentId" => $this->getDocumentId()
+            ), array(
+            "order" => "Revision DESC"
+            ));
     }
 
     public function getNewestPublishedVersion() {
         return DocumentVersion::model()->findByAttributes(array(
-                    "DocumentId" => $this->getDocumentId(),
-                    "IsPublished" => 1
-                        ), array(
-                    "order" => "Revision DESC"
-                ));
+            "DocumentId" => $this->getDocumentId(),
+            "IsPublished" => 1
+            ), array(
+            "order" => "Revision DESC"
+            ));
     }
 
 }
@@ -97,6 +97,10 @@ class VersionedModelBehavior extends CActiveRecordBehavior {
  * @property Cmsuser $creatorUser
  */
 class DocumentVersion extends MataActiveRecord {
+
+    public function behaviors() {
+        return array();
+    }
 
     /**
      * Returns the static model of the specified AR class.
@@ -122,13 +126,13 @@ class DocumentVersion extends MataActiveRecord {
         // will receive user inputs.
         return array(
             array('DocumentId, Revision, ModelAttributes', 'required'),
-            array('DocumentId', 'length', 'max' => 40),
+            array('DocumentId', 'length', 'max' => 128),
             array('Revision', 'length', 'max' => 10),
             array("Comment", "safe"),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('DocumentId, Revision, DateCreated, ModelAttributes', 'safe', 'on' => 'search'),
-        );
+            );
     }
 
     /**
@@ -139,7 +143,7 @@ class DocumentVersion extends MataActiveRecord {
         // class name for the relations automatically generated below.
         return array(
             'creatorCMSUser' => array(self::BELONGS_TO, 'Cmsuser', 'CreatorCMSUserId'),
-        );
+            );
     }
 
     /**
@@ -152,7 +156,7 @@ class DocumentVersion extends MataActiveRecord {
             'DateCreated' => 'Date Created',
             'ModelAttributes' => 'Model Attributes',
             'CreatorUserId' => 'Author',
-        );
+            );
     }
 
     /**
@@ -172,8 +176,8 @@ class DocumentVersion extends MataActiveRecord {
         $criteria->compare('CreatorCMSUserId', $this->CreatorCMSUserId, true);
 
         return new CActiveDataProvider($this, array(
-                    'criteria' => $criteria,
-                ));
+            'criteria' => $criteria,
+            ));
     }
 
 }
