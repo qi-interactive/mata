@@ -374,10 +374,10 @@ class MataCommand extends CConsoleCommand {
 		}
 	}
 
-	public function prompt($msg) {
+	public function prompt($message, $default = NULL) {
 
 		if ($this->interactive == 1)
-			return parent::prompt($msg);
+			return parent::prompt($message, $default);
 
 		return "yes";
 	}

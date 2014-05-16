@@ -6,8 +6,9 @@ class m131202_225813_create_project_settings_table extends CDbMigration
 	public function safeUp()
 	{
 		$this->createTable('projectsetting', array(
-			'Key' => 'varchar(128) pk',
-			'Value' => 'TEXT NOT NULL',
+			'Key' => 'varchar(128) NOT NULL',
+			'Value' => 'text NOT NULL',
+			'PRIMARY KEY (`Key`)'
 			));
 
 	}
