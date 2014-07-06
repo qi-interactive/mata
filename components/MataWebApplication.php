@@ -22,8 +22,9 @@ class MataWebApplication extends CWebApplication {
         $this->setComponents(array(
             'matadb' => array(
                 'class' => 'CDbConnection',
-            )
-        ));
+                )
+            ));
+
 
         parent::__construct($config);
         $this->initializeMataModules();
@@ -32,13 +33,11 @@ class MataWebApplication extends CWebApplication {
     }
 
     private function initializeMataModules() {
-
         $modules = Yii::app()->matadb->createCommand("select Name, Config from matamodule")->queryAll();
         
         // This logic means file overwrites db settings - is this correct?
         foreach ($modules as $module) {
             if (!$this->hasModule($module["Name"])) {
-
                 $config = json_decode($module["Config"], true);
 
                 if ($config == null || !$config["class"])
@@ -74,12 +73,12 @@ class MataWebApplication extends CWebApplication {
     }
 
     public function setContentLanguage($contentLanguage) {
-        $_SESSION["mata::contentLanguage::" . Yii::app()->user->getProject()->ProjectKey] = $contentLanguage;
+        $_SESSION["mata::contentLanguage"] = $contentLanguage;
     }
 
     public function getContentLanguage() {
         return isset($_SESSION["mata::contentLanguage::" . Yii::app()->user->getProject()->ProjectKey]) ?
-                $_SESSION["mata::contentLanguage::" . Yii::app()->user->getProject()->ProjectKey] : $this->defaultContentLanguage;
+        $_SESSION["mata::contentLanguage::" . Yii::app()->user->getProject()->ProjectKey] : $this->defaultContentLanguage;
     }
 
     public function getMataAssetUrl() {

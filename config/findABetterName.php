@@ -1,3 +1,3 @@
 <?php
 
-return array("contentblock", "internationalization");
+return array("projectSettings", "contentBlock");

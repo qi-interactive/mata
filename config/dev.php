@@ -2,7 +2,7 @@
 
 return array(
 	'name' => 'Mata CMS',
-	'defaultController' => "mata/Home",
+	'defaultController' => "mata/mHome",
 	'import' => array(
 		'mata.models.base.*',
 		'mata.models.*',
@@ -41,38 +41,41 @@ return array(
 		'mataAdmin' => array(
 			"class" => "mata.modules.mataAdmin.MataAdminModule",
 			'defaultController' => "mataAdmin"
-			)
+			),
+		'form' => array(
+			"class" => "mata.modules.form.FormModule",
+			),
 		),
-	'components' => array(
+'components' => array(
 		// 'user' => array(
 		// 	'class' => 'mata.modules.user.components.WebUser',
 		// 	),
-		'keyValue' => array(
-			"class" => "mata.extensions.KeyValue"
-			),
-		'eventLog' => array(
-			"class" => "mata.extensions.SystemEventLog"
-			),
-		'googleApis' => array(
-			'class' => 'mata.extensions.googleApis.GoogleApis',
+	'keyValue' => array(
+		"class" => "mata.extensions.KeyValue"
+		),
+	'eventLog' => array(
+		"class" => "mata.extensions.SystemEventLog"
+		),
+	'googleApis' => array(
+		'class' => 'mata.extensions.googleApis.GoogleApis',
             // See http://code.google.com/p/google-api-php-client/wiki/OAuth2
-			'clientId' => '526658062115.apps.googleusercontent.com',
-			'clientSecret' => 'm5DclALulijkyZodV3MJKU0p',
-			'redirectUri' => 'http://new.matacms.com/mata/dashboard/getUserStatsFromGoogleAnalytics',
+		'clientId' => '526658062115.apps.googleusercontent.com',
+		'clientSecret' => 'm5DclALulijkyZodV3MJKU0p',
+		'redirectUri' => 'http://new.matacms.com/mata/dashboard/getUserStatsFromGoogleAnalytics',
             // // This is the API key for 'Simple API Access'
-			'developerKey' => 'AIzaSyBgbvhN5-awrJnZWIOu-ks276-UrwE9YrQ',
-			),
-		'matadb' => array(),
-		'clientScript' => array(
-			'packages' => array(
-				'bbq' => array(
-					'basePath' => "mata.assets.js.lib",
-					'js' => array('jquery.ba-bbq.js'),
-					'coreScriptPosition' => CClientScript::POS_HEAD
-					),
+		'developerKey' => 'AIzaSyBgbvhN5-awrJnZWIOu-ks276-UrwE9YrQ',
+		),
+	'matadb' => array(),
+	'clientScript' => array(
+		'packages' => array(
+			'bbq' => array(
+				'basePath' => "mata.assets.js.lib",
+				'js' => array('jquery.ba-bbq.js'),
+				'coreScriptPosition' => CClientScript::POS_HEAD
+				),
                 // TODO Think how to remove this, Gii doesn't work with this in here and possible imapct on 3rd party libs
-				'jquery' => false
-				)
+			'jquery' => false
 			)
 		)
+	)
 );

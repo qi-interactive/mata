@@ -127,7 +127,6 @@ class MataCommand extends CConsoleCommand {
 	}
 
 	private function renameScaffoldingModule($filesAndFolders, $renamedModulePath) {
-		
 
 		$filesAndFolders = array_reverse($filesAndFolders);
 
@@ -205,29 +204,46 @@ class MataCommand extends CConsoleCommand {
 	}
 
 	private function runModuleInstaller($moduleId) {
-		$this->runModuleMigrationTool($moduleId);
-		// $this->registerModuleWithMata();
 
+		$this->runModuleMigrationTool($moduleId);
+		$this->registerModuleWithMata($moduleId);
 
 	}
 
-	private function registerModuleWithMata() {
+	private function registerModuleWithMata($moduleId) {
 
+		Yii::import("application.models.base.*");
+		Yii::import("application.models.*");
 
-		// Yii::import("application.models.base.*");
-		// Yii::import("application.models.*");
-
-		// $order = MataModuleGroup::model()->find(array(
-		// 	"order" => "Order DESC",
-		// 	"select" => "Order"
-		// 	));
-
-		// echo $order;
-
-		$model = new MataModuleGroup();
-		$model->attributes(array(
-			"Name" => "Content Block"
+		MMataModuleGroup::model()->deleteAll();		
+		MMataModule::model()->deleteAll();		
+		$order = MMataModuleGroup::model()->find(array(
+			"order" => "`Order` DESC",
+			"select" => "`Order`"
 			));
+
+		if ($order == null)
+			$order = 1;
+
+		$group = new MMataModuleGroup();
+		$group->attributes = array(
+			"Name" => $moduleId,
+			"Order" => $order
+			);
+
+		if (!$group->save())
+			throw new CHttpException(500, $group->getFirstError());
+
+
+		$module = new MMataModule();
+		$module->attributes = array(
+			"Name" => $moduleId,
+			"MataModuleGroupId" => $group->Id,
+			"Config" => '{"class" : "mata.modules.' . $moduleId . '.' . ucfirst($moduleId) . 'Module"}'
+			);
+
+		if (!$module->save())
+			throw new CHttpException(500, $group->getFirstError());
 	}
 
 
@@ -329,7 +345,7 @@ class MataCommand extends CConsoleCommand {
 	private function installModule($moduleId) {
 		$this->printLine("Checking availibility of $moduleId");
 
-		if ($this->urlExists("http://mataframework.localhost/modules/$moduleId.mata")) {
+		if ($this->urlExists("http://mataframework.com/modules/$moduleId.mata")) {
 			$agreeToInstall = $this->prompt("$moduleId verified. Would you like to install? (yes|no)");
 
 			if ($agreeToInstall == "yes") {
@@ -383,7 +399,7 @@ class MataCommand extends CConsoleCommand {
 	}
 
 	private function getModule($moduleId) {
-		return $this->callAPI("GET", "http://mataframework.localhost/modules/$moduleId.mata", false);
+		return $this->callAPI("GET", "http://mataframework.com/modules/$moduleId.mata", false);
 	}
 
 	function urlExists($url=NULL)

@@ -2,7 +2,7 @@
 
 return array(
     'name' => 'Mata CMS',
-    'defaultController' => "mata/Home",
+    'defaultController' => "mata/MHome",
     'import' => array(
         'mata.models.base.*',
         'mata.models.*',

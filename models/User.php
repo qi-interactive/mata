@@ -1,6 +1,6 @@
 <?php
 
-class User extends MataActiveRecord {
+class User extends MMataActiveRecord {
 
     const STATUS_NOACTIVE = 0;
     const STATUS_ACTIVE = 1;
