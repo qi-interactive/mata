@@ -6,7 +6,7 @@
 	</div>
 <?php endif; ?>
 
-<?php echo $this->renderPartial(file_exists($this->getViewFile("_form")) ? "_form" : 'mata.views.module._form', array('model' => $model));
+<?php echo $this->renderPartial(file_exists($this->getViewFile("_form")) ? "_form" : 'mata.views.mModule._form', array('model' => $model));
 ?>
 <script>
 	function getVersions(url) {

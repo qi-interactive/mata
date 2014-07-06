@@ -1,6 +1,6 @@
 <?php
 
-Yii::import("mata.wudgets.MActiveForm");
+Yii::import("mata.widgets.MActiveForm");
 
 class MAutoActiveForm extends MActiveForm {
 

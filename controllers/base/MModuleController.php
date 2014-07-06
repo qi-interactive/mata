@@ -41,7 +41,7 @@ abstract class MModuleController extends MMataController {
             }
         }
 
-        $this->render(file_exists($this->getViewFile("create")) ? "create" : 'mata.views.module.create', array(
+        $this->render(file_exists($this->getViewFile("create")) ? "create" : 'mata.views.mModule.create', array(
             'model' => $model,
             "modelName" => $modelClassName
             ));
@@ -69,7 +69,7 @@ abstract class MModuleController extends MMataController {
             }
         }
 
-        $this->render(file_exists($this->getViewFile("update")) ? "update" : 'mata.views.module.update', array(
+        $this->render(file_exists($this->getViewFile("update")) ? "update" : 'mata.views.mModule.update', array(
             'model' => $model,
             "modelName" => $modelClassName,
             "modelNameLowerCase" => strtolower($modelClassName)
@@ -111,7 +111,7 @@ abstract class MModuleController extends MMataController {
         if (isset($_GET[$modelClassName]))
             $model->attributes = $_GET[$modelClassName];
 
-        $this->render(file_exists($this->getViewFile("admin")) ? "admin" : 'mata.views.module.admin', array(
+        $this->render(file_exists($this->getViewFile("admin")) ? "admin" : 'mata.views.mModule.admin', array(
             'model' => $model,
             "modelName" => $modelClassName,
             "modelNameLowerCase" => strtolower($modelClassName)
@@ -124,7 +124,7 @@ abstract class MModuleController extends MMataController {
         if ($model == null)
             throw new CHttpException(500, "Could not find model by id " . $id);
         
-        $this->render(file_exists($this->getViewFile("view")) ? "view" : 'mata.views.module.view', array(
+        $this->render(file_exists($this->getViewFile("view")) ? "view" : 'mata.views.mModule.view', array(
             'model' => $model
             ));
     }
