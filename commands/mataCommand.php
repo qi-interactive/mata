@@ -215,8 +215,6 @@ class MataCommand extends CConsoleCommand {
 		Yii::import("application.models.base.*");
 		Yii::import("application.models.*");
 
-		MMataModuleGroup::model()->deleteAll();		
-		MMataModule::model()->deleteAll();		
 		$order = MMataModuleGroup::model()->find(array(
 			"order" => "`Order` DESC",
 			"select" => "`Order`"
