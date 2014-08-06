@@ -226,7 +226,7 @@ class MataCommand extends CConsoleCommand {
 		$group = new MMataModuleGroup();
 		$group->attributes = array(
 			"Name" => $moduleId,
-			"Order" => $order
+			"Order" => $order->Order
 			);
 
 		if (!$group->save())

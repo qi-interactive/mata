@@ -1,6 +1,6 @@
 <?php
 $this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts") . DIRECTORY_SEPARATOR . "mataMain.php") ?
-                'application.views.layouts.mataMain' : 'mata.views.layouts.mataMain');
+                'application.views.layouts.mataMain' : 'mata.views.layouts.mMataMain');
 ?>
 <?php
 foreach (Yii::app()->user->getFlashes() as $key => $message) {
