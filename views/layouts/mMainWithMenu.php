@@ -13,6 +13,9 @@ $this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts")
                     if (count($moduleGroup->modules) == 0)
                         continue;
 
+                    if (count($module->getNav()) == 0)
+                        continue;
+                    
                     $module = Yii::app()->getModule($moduleGroup->modules[0]->Name);
 
                     if ($module == null)
