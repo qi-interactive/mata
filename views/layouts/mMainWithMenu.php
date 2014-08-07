@@ -13,9 +13,6 @@ $this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts")
                     if (count($moduleGroup->modules) == 0)
                         continue;
 
-                    if (count($module->getNav()) == 0)
-                        continue;
-                    
                     $module = Yii::app()->getModule($moduleGroup->modules[0]->Name);
 
                     if ($module == null)
@@ -28,7 +25,7 @@ $this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts")
                         <?php
 
                         echo CHtml::image($assetURL . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "module-large-icon.png") .
-                        "<span class='label'>" . Yii::t(strtolower($module->Name), $module->Name) . "</span>";
+                        "<span class='label'>" . Yii::t(strtolower($moduleGroup->Name), $moduleGroup->Name) . "</span>";
                         ?>
                     </a></li>
                     <?php
@@ -39,7 +36,7 @@ $this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts")
                     <li class='menu-item'><a href="javascript:void(0)" data-sub-nav="<?php echo strtolower($moduleGroup->Name) ?>" >
                         <?php
                         echo CHtml::image($assetURL . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "module-large-icon.png") .
-                        "<span class='label'>" . Yii::t(strtolower($module->Name), $module->Name) . "</span>";
+                        "<span class='label'>" . Yii::t(strtolower($moduleGroup->Name), $moduleGroup->Name) . "</span>";
                         ?>
 
                     </a></li>
