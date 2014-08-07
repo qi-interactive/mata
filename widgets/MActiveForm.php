@@ -17,6 +17,21 @@ class MActiveForm extends CActiveForm {
 		return DbConfigurableHtml::activeTextField($model,$attribute,$htmlOptions);
 	}
 
+	public function widget($className,$properties=array(),$captureOutput=false) {
+		
+		if (empty($properties) || empty($properties["model"]) || empty ($properties["attribute"]))
+			throw new CHttpException(500, "To use widget through " . __CLASS__ . " one needs to pass model and attribute in widget settings");
+
+		$model = $properties["model"];
+		$attribute = $properties["attribute"];
+
+		if(!DbConfigurableHtml::isVisible($model, $attribute))
+			return; 
+
+		return Yii::app()->controller->widget($className, $properties, $captureOutput);
+
+	}
+
 	public function configSummary() {
 
 		if (!YII_DEBUG)
