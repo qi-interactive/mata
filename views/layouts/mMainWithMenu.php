@@ -18,6 +18,9 @@ $this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts")
                     if ($module == null)
                         throw new CHttpException("Could not find module by id " . $moduleGroup->modules[0]->Name);
 
+                    if ($module->getNav() == false || empty($module->getNav()))
+                        continue;
+
                     $assetURL = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias($module->Name) . DIRECTORY_SEPARATOR . "assets", false, -1, YII_DEBUG);
                     if (count($moduleGroup->modules) == 1 && count(Yii::app()->getModule($moduleGroup->modules[0]->Name)->getNav()) == 1):
                         ?>
@@ -64,7 +67,13 @@ $this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts")
                             <?php foreach ($moduleGroup->modules as $module): ?>
 
                                 <?php
-                                foreach (Yii::app()->getModule($module->Name)->getNav() as $label => $url):
+
+                                $subNav = Yii::app()->getModule($module->Name)->getNav();
+
+                                if ($subNav == false || empty($subNav))
+                                    continue;
+
+                                foreach ($subNav as $label => $url):
                                     $assetURL = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias($module->Name) . DIRECTORY_SEPARATOR . "assets", false, -1, YII_DEBUG);
                                 echo "<li class='menu-item'><a href='$url'>" .
                                 CHtml::image($assetURL . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . str_replace(" ", "-", strtolower($label)) . "-small-icon.png") .

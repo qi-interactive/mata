@@ -25,26 +25,6 @@ return array(
 		// 	'returnUrl' => "/",
 		// 	'captcha' => array('registration' => false)
 		// 	),
-		"media" => array(
-			"class" => "application.modules.media.MediaModule",
-			"baseMediaPath" => "http://media.icodesign.com/"
-			),
-		"mataDashboard" => array(
-			"class" => "mata.modules.mataDashboard.MataDashboardModule",
-			),
-		'project' => array(
-			"class" => "mata.modules.project.ProjectModule",
-			),
-		'installer' => array(
-			"class" => "mata.modules.installer.MataInstallerModule",
-			),
-		'mataAdmin' => array(
-			"class" => "mata.modules.mataAdmin.MataAdminModule",
-			'defaultController' => "mataAdmin"
-			),
-		'form' => array(
-			"class" => "mata.modules.form.FormModule",
-			),
 		),
 'components' => array(
 		// 'user' => array(
