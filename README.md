@@ -46,6 +46,10 @@ Mata Framework for Yii
 
 ## Changelog (major improvements only)
 
+14 August 2014
+- added mata module init command 
+- updated imperavi version
+
 7 August 2014
 - improvements to the side menu bar and main layout 
 - added velocity.js
