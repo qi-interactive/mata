@@ -8,7 +8,7 @@ class m131202_225812_create_mata_module_table extends CDbMigration
 		$this->createTable('matamodule', array(
 			'Id' => 'pk',
 			'Name' => 'varchar(32) NOT NULL',
-			'MataModuleGroupId' =>  'tinyint(2)',
+			'MataModuleGroupId' =>  'int(11)',
 			'Config' => 'text',
 			));
 

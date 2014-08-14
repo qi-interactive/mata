@@ -220,13 +220,12 @@ class MataCommand extends CConsoleCommand {
 			"select" => "`Order`"
 			));
 
-		if ($order == null)
-			$order = 1;
+		$order = $order == null ? 1 : $order->Order;
 
 		$group = new MMataModuleGroup();
 		$group->attributes = array(
 			"Name" => $moduleId,
-			"Order" => $order->Order
+			"Order" => $order
 			);
 
 		if (!$group->save())
