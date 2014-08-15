@@ -21,7 +21,6 @@ abstract class MModuleController extends MMataController {
      */
     public function actionCreate() {
 
-
         $model = $this->getModel();
         $model = new $model;
 
@@ -35,9 +34,8 @@ abstract class MModuleController extends MMataController {
             $model->attributes = $_POST[$modelClassName];
             if ($model->save()) {
                 FlashMessage::setStandardModelCreateMessage($model);
-
-                $pathSegments = explode("/", Yii::app()->request->pathInfo);
-                $this->redirect("/$pathSegments[0]/$pathSegments[1]");
+                echo $this->getSuccessRedirectPath($model);
+                $this->redirect($this->getSuccessRedirectPath($model));
             }
         }
 
@@ -45,6 +43,15 @@ abstract class MModuleController extends MMataController {
             'model' => $model,
             "modelName" => $modelClassName
             ));
+    }
+
+    protected function getSuccessRedirectPath($model) {
+        $pathSegments = explode("/", Yii::app()->request->pathInfo);
+        return "/$pathSegments[0]/$pathSegments[1]";
+    }
+
+    protected function getDeleteRedirectPath() {
+        return isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin');
     }
 
     /**
@@ -62,19 +69,17 @@ abstract class MModuleController extends MMataController {
         if (isset($_POST[$modelClassName])) {
             $model->attributes = $_POST[$modelClassName];
             if ($model->save()) {
-                FlashMessage::setStandardModelUpdateMessage($model);
+               FlashMessage::setStandardModelUpdateMessage($model);
+               $this->redirect($this->getSuccessRedirectPath($model));
+           }
+       }
 
-                $pathSegments = explode("/", Yii::app()->request->pathInfo);
-                $this->redirect("/$pathSegments[0]/$pathSegments[1]");
-            }
-        }
-
-        $this->render(file_exists($this->getViewFile("update")) ? "update" : 'mata.views.mModule.update', array(
-            'model' => $model,
-            "modelName" => $modelClassName,
-            "modelNameLowerCase" => strtolower($modelClassName)
-            ));
-    }
+       $this->render(file_exists($this->getViewFile("update")) ? "update" : 'mata.views.mModule.update', array(
+        'model' => $model,
+        "modelName" => $modelClassName,
+        "modelNameLowerCase" => strtolower($modelClassName)
+        ));
+   }
 
     /**
      * Returns the data model based on the primary key given in the GET variable.
@@ -98,7 +103,7 @@ abstract class MModuleController extends MMataController {
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax']))
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+            $this->redirect($this->getDeleteRedirectPath());
     }
 
     /**

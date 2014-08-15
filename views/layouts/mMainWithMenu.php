@@ -18,6 +18,9 @@ $this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts")
                     if ($module == null)
                         throw new CHttpException("Could not find module by id " . $moduleGroup->modules[0]->Name);
 
+                    if ($module->getNav() == false || empty($module->getNav()))
+                        continue;
+
                     $assetURL = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias($module->Name) . DIRECTORY_SEPARATOR . "assets", false, -1, YII_DEBUG);
                     if (count($moduleGroup->modules) == 1 && count(Yii::app()->getModule($moduleGroup->modules[0]->Name)->getNav()) == 1):
                         ?>
@@ -33,7 +36,7 @@ $this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts")
                     endif;
                     ?>
 
-                    <li class='menu-item'><a href="javascript:void(0)" data-sub-nav="<?php echo strtolower($moduleGroup->Name) ?>" >
+                    <li class='menu-item'><a href="javascript:void(0)" data-sub-nav="<?php echo str_replace(" ", "-", strtolower($moduleGroup->Name)) ?>" >
                         <?php
                         echo CHtml::image($assetURL . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "module-large-icon.png") .
                         "<span class='label'>" . Yii::t(strtolower($moduleGroup->Name), $moduleGroup->Name) . "</span>";
@@ -57,19 +60,33 @@ $this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts")
 
 
                 <?php foreach (MMataModuleGroup::model()->with("modules")->findAll() as $moduleGroup): ?>
-                    <div id="sub-menu-<?php echo strtolower($moduleGroup->Name) ?>" class="sub-menu">
+                    <div id="sub-menu-<?php echo str_replace(" ", "-", strtolower($moduleGroup->Name)) ?>" class="sub-menu">
                         <h2>Accounts</h2>
                         <p>Lorem ipsum dolor sit amet, consectuter adupiscig dig.</p>
                         <ul class="menu-item-container">
                             <?php foreach ($moduleGroup->modules as $module): ?>
 
                                 <?php
-                                foreach (Yii::app()->getModule($module->Name)->getNav() as $label => $url):
+
+                                $subNav = Yii::app()->getModule($module->Name)->getNav();
+
+                                if ($subNav == false || empty($subNav))
+                                    continue;
+
+                                foreach ($subNav as $label => $url):
                                     $assetURL = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias($module->Name) . DIRECTORY_SEPARATOR . "assets", false, -1, YII_DEBUG);
-                                echo "<li class='menu-item'><a href='$url'>" .
-                                CHtml::image($assetURL . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . str_replace(" ", "-", strtolower($label)) . "-small-icon.png") .
-                                "<span class='label'>" . Yii::t(strtolower($module->Name), $label) .
-                                "</span></a></li>";
+                                echo "<li class='menu-item'><a href='$url'>";
+                               
+
+                               $iconLocation = $assetURL . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . str_replace(" ", "-", strtolower($label)) . "-small-icon.png";
+
+                               if (file_exists(Yii::app()->basePath .DIRECTORY_SEPARATOR . ".."  . $iconLocation)) {
+                                   echo CHtml::image($iconLocation, $moduleGroup->Name);
+                               } else {
+                                   echo "<div class='default-submenu-icon'>" . $label[0] . "</div>";
+                               }
+                               echo "<span class='label'>" . Yii::t(strtolower($module->Name), $label) .
+                               "</span></a></li>";
                                 endforeach;
                                 ?>
                                 <?php
@@ -110,7 +127,9 @@ $this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts")
                         })
 
                         function showSideMenu(section) {
+
                             hideSubmenu()
+
                             $("#sub-menu-" + section).addClass("active").transition({
                                 left: 100
                             });
