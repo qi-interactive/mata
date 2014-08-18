@@ -41,20 +41,20 @@ class MataCommand extends CConsoleCommand {
 		$moduleName = $this->prompt("How is the new module called? [use camelCase, e.g. contentBlock, myGreatModule]");
 
 		$moduleNameUpperCase = ucfirst($moduleName);
-		$tmpFolder = "/Users/wichura/Code/voltadatacentres.com/mata/modules/temp";
+		$tmpFolder = Yii::getPathOfAlias('mata') . "/modules/temp";
 
-		if (file_exists("/Users/wichura/Code/voltadatacentres.com/mata/modules/kasia"))
-			self::delTree("/Users/wichura/Code/voltadatacentres.com/mata/modules/kasia");
+		if (file_exists(Yii::getPathOfAlias('mata') . "/modules/kasia"))
+			self::delTree(Yii::getPathOfAlias('mata') . "/modules/kasia");
 
-		if (file_exists("/Users/wichura/Code/voltadatacentres.com/mata/modules/temp"))
-			self::delTree("/Users/wichura/Code/voltadatacentres.com/mata/modules/temp");
+		if (file_exists(Yii::getPathOfAlias('mata') . "/modules/temp"))
+			self::delTree(Yii::getPathOfAlias('mata') . "/modules/temp");
 
 		mkdir($tmpFolder);
 
 		$this->interactive = false;
 		$this->installModule("scaffolding", false);
 
-		self::copyAndRename("/Users/wichura/Code/voltadatacentres.com/mata/modules/scaffolding", "/Users/wichura/Code/voltadatacentres.com/mata/modules/temp", $moduleName, $moduleNameUpperCase);
+		self::copyAndRename(Yii::getPathOfAlias('mata') . "/modules/scaffolding", Yii::getPathOfAlias('mata') . "/modules/temp", $moduleName, $moduleNameUpperCase);
 
 		$this->registerModuleWithMata($moduleName);
 
