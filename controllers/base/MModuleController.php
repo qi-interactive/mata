@@ -118,6 +118,21 @@ abstract class MModuleController extends MMataController {
             ));
     }
 
+    protected function getModelPkValue() {
+
+        if (is_array($this->getModel()->getTableSchema()->primaryKey)) {
+            $pkValues = array();
+            foreach ($this->getModel()->getTableSchema()->primaryKey as $key) {
+                $pkValues = array_merge($pkValues, array($key => Yii::app()->getRequest()->getParam($key)));
+            }
+
+        } else {
+            $pkValues = Yii::app()->getRequest()->getParam($this->getModel()->getTableSchema()->primaryKey);
+        }
+
+        return $pkValues;
+    }
+
     public function actionView($id) {
         $model = $this->loadModel($id);
         

@@ -119,6 +119,8 @@ hr {
 
 .multioption-list .multioption-element a {
     line-height: normal;
+    text-decoration: none;
+    color: #FFF;
 }
 
 input, select, option, button, .btn, input, textarea {
@@ -410,6 +412,11 @@ img.avatar {
     position: relative;
 }
 
+.list-view a {
+    color: #000000;
+    text-decoration: none;
+}
+
 .list-view .items {
     margin-top: 15px
 }
@@ -487,6 +494,7 @@ img.avatar {
     border-radius: 5px;
     text-align: center;
     color: #FFF;
+    z-index: 10000;
 }
 
 .list-selection h4, .list-selection .label {

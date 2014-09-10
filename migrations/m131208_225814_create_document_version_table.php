@@ -7,12 +7,12 @@ class m131208_225814_create_document_version_table extends CDbMigration
 	{
 		$this->createTable('documentversion', array(
 			'DocumentId' => 'varchar(128)',
-			'Revision' => 'TEXT NOT NULL',
+			'Revision' => 'TINYINT NOT NULL',
 			'DateCreated' => "TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
 			'ModelAttributes' => "LONGTEXT NOT NULL",
 			'CreatorMataUserId' => "int(11) NOT NULL",
 			'IsPublished' => "tinyint(1) NOT NULL DEFAULT 0",
-			'PRIMARY KEY (`DocumentId`)'
+			'PRIMARY KEY (`DocumentId`, `RevisionId`)'
 			));
 
 	}

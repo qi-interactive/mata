@@ -2,7 +2,7 @@
 
 <?php if (array_key_exists("versions", $model->behaviors())): ?>
 	<div class='versions'>
-		<a onclick='getVersions("<?php echo "/$modelNameLowerCase/$modelNameLowerCase/getVersions/id/$model->Id" ?>")' href='#'>Versions</a>
+		<a onclick='getVersions("<?php echo "/" . $this->id . "/" . $this->id . "/getVersions?" . $model->getTableSchema()->primaryKey . "=" . $model->getPrimaryKey() ?>")' href='#'>Versions</a>
 	</div>
 <?php endif; ?>
 
