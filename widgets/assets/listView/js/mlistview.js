@@ -32,6 +32,10 @@
             $(document).on("click.mListView", ".list-view-item", function(e) {
                 if ((navigator.appVersion.indexOf("Mac") != -1 && e.metaKey) ||
                         e.ctrlKey) {
+                    
+                    if ($(this).find(".delete").length == 0)
+                        return; 
+
                     $.fn.mListView.toggleItem($(this));
                     $(document).trigger("selection-changed");
                     e.stopPropagation();
@@ -81,6 +85,9 @@
                 })
 
                 $(document).trigger("selection-changed");
+            }).error(function(e, er) {
+                console.log(er)
+                alert(er)
             })
 
         })
