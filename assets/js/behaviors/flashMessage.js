@@ -1,5 +1,8 @@
-$(window).ready(function() {
-    
+$(window).ready(function() {    
+    handleFlashMessage();
+})
+
+function handleFlashMessage() {
     var lastFlash = null;
     var lastTargetTop = null;
     $("*[class^='flash-']").each(function(i) {
@@ -25,4 +28,4 @@ $(window).ready(function() {
             })
         });
     })
-})
+}
