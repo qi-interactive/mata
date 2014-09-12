@@ -12,7 +12,7 @@ class m131202_225812_create_mata_module_table extends CDbMigration
 			'Config' => 'text',
 			));
 
-		$this->addForeignKey("FK_MataModuleGroup", "matamodule", "MataModuleGroupId", "MataModuleGroup", "Id");
+		$this->addForeignKey("FK_MataModuleGroup", "matamodule", "MataModuleGroupId", "matamodulegroup", "Id");
 	}
 
 	public function safeDown()
