@@ -12,7 +12,7 @@ class m131208_225814_create_document_version_table extends CDbMigration
 			'ModelAttributes' => "LONGTEXT NOT NULL",
 			'CreatorMataUserId' => "int(11) NOT NULL",
 			'IsPublished' => "tinyint(1) NOT NULL DEFAULT 0",
-			'PRIMARY KEY (`DocumentId`, `RevisionId`)'
+			'PRIMARY KEY (`DocumentId`, `Revision`)'
 			));
 
 	}
