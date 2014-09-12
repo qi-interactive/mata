@@ -21,7 +21,6 @@ abstract class MModuleController extends MMataController {
      */
     public function actionCreate() {
 
-
         $model = $this->getModel();
         $model = new $model;
 

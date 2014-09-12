@@ -33,7 +33,7 @@ class MataWebApplication extends CWebApplication {
     }
 
     private function initializeMataModules() {
-        $modules = Yii::app()->matadb->createCommand("select Name, Config from matamodule")->queryAll();
+        $modules = $this->getMataModules();
         
         // This logic means file overwrites db settings - is this correct?
         foreach ($modules as $module) {
@@ -46,6 +46,10 @@ class MataWebApplication extends CWebApplication {
                 $this->setModules(array($module["Name"] => $config));
             }
         }
+    }
+
+    public function getMataModules() {
+        return Yii::app()->matadb->createCommand("select Name, Config from matamodule")->queryAll();
     }
 
     public function createController($route, $owner = null) {
