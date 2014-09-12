@@ -27,6 +27,7 @@ input, select, textarea{
 
 .redactor_box {
     max-width:531px;
+    width: 100%;
 }
 
  input.filter {
