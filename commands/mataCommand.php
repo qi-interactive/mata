@@ -5,6 +5,100 @@ class MataCommand extends CConsoleCommand {
 	public $defaultAction = "install";
 	public $interactive = 1;
 
+	public function actionModule($args) {
+
+		$command = ""; 
+
+		if (count($args) > 1) {
+			list($command, $attribute) = $args;
+		} else {
+			$command = current($args);
+		}
+
+		switch($command) {
+
+			case "init": {
+				$this->installScaffoldingModule();
+				break;
+			}
+
+			case "install": {
+				$this->actionInstall(array(
+					"module", $attribute
+					));
+				break;
+			}
+
+			default: {
+				throw new Exception("Command " . $command . " not recognised");
+			}
+		}
+	}
+
+	private function installScaffoldingModule() {
+		
+		$this->printLine("This utility will create a basic module ready for further development");
+		$moduleName = $this->prompt("How is the new module called? [use camelCase, e.g. contentBlock, myGreatModule]");
+
+		$moduleNameUpperCase = ucfirst($moduleName);
+		$tmpFolder = Yii::getPathOfAlias('mata') . "/modules/temp";
+
+		if (file_exists(Yii::getPathOfAlias('mata') . "/modules/kasia"))
+			self::delTree(Yii::getPathOfAlias('mata') . "/modules/kasia");
+
+		if (file_exists(Yii::getPathOfAlias('mata') . "/modules/temp"))
+			self::delTree(Yii::getPathOfAlias('mata') . "/modules/temp");
+
+		mkdir($tmpFolder);
+
+		$this->interactive = false;
+		$this->installModule("scaffolding", false);
+
+		self::copyAndRename(Yii::getPathOfAlias('mata') . "/modules/scaffolding", Yii::getPathOfAlias('mata') . "/modules/temp", $moduleName, $moduleNameUpperCase);
+
+		$this->registerModuleWithMata($moduleName);
+
+		$modulePath = __DIR__ . DIRECTORY_SEPARATOR .  ".." .
+		DIRECTORY_SEPARATOR . "modules" . DIRECTORY_SEPARATOR . "temp";
+
+		$this->printLine($modulePath);
+		rename($modulePath, str_replace("temp", $moduleName, $modulePath));
+		self::delTree($modulePath);
+	}
+
+	public static function delTree($dir) { 
+		$files = array_diff(scandir($dir), array('.','..')); 
+		foreach ($files as $file) { 
+			(is_dir("$dir/$file")) ? self::delTree("$dir/$file") : unlink("$dir/$file"); 
+		} 
+		return rmdir($dir); 
+	} 
+
+	static public function copyAndRename($source, $dest, $moduleName, $moduleNameUpperCase)
+	{
+		foreach (
+			$iterator = new RecursiveIteratorIterator(
+				new RecursiveDirectoryIterator($source, RecursiveDirectoryIterator::SKIP_DOTS),
+				RecursiveIteratorIterator::SELF_FIRST) as $item
+			) {
+			if ($item->isDir()) {
+				mkdir($dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+			} else {
+
+				$name = preg_replace("/scaffolding/", $moduleName, $iterator->getSubPathName());
+				$name = preg_replace("/Scaffolding/", $moduleNameUpperCase, $iterator->getSubPathName());
+
+				copy($item, $dest . DIRECTORY_SEPARATOR . $name);
+
+				$contents = file_get_contents($dest . DIRECTORY_SEPARATOR . $name);
+				$contents = preg_replace("/scaffolding/", $moduleName, $contents);
+				$contents = preg_replace("/Scaffolding/", $moduleNameUpperCase, $contents);
+
+				file_put_contents($dest . DIRECTORY_SEPARATOR . $name, $contents);
+			}
+		}
+	}
+
 	public function actionInstall($args = array()) {
 
 
@@ -80,50 +174,6 @@ class MataCommand extends CConsoleCommand {
 			}
 			return;
 		}
-	}
-
-	private function installScaffoldingModule() {
-		$this->printLine("This utility will create a basic module ready for further development");
-		$response = $this->prompt("How is the new module called?");
-
-		$this->installModule("scaffolding");
-
-		$this->printLine("For the time being you need to rename all scaffolding to $response");
-		
-		// $modulePath = __DIR__ . DIRECTORY_SEPARATOR .  ".." .
-		// DIRECTORY_SEPARATOR . "modules" . DIRECTORY_SEPARATOR . "scaffolding";
-
-
-		// $renamedModulePath = str_replace("scaffolding", "kasia", $modulePath);
-		// rename($modulePath,  $renamedModulePath);
-
-
-
-		// $filesAndFolders = $this->find_all_files($renamedModulePath);
-
-		// // $this->renameScaffoldingModule($filesAndFolders, $renamedModulePath);
-
-
-		// if ($handle = opendir($renamedModulePath)) { 
-		// 	while (false !== ($fileName = readdir($handle))) {     
-		// 		$newName = str_replace("scaffolding","kasia",$fileName);
-		// 		rename($renamedModulePath . $fileName, $renamedModulePath . $newName);
-		// 	}
-		// 	closedir($handle);
-		// }
-
-
-		// $di = new RecursiveDirectoryIterator($renamedModulePath);
-		// foreach (new RecursiveIteratorIterator($di) as $filename => $file) {
-
-		// 	if ($file->isFile()) {
-
-		// 	} else {
-		// 		$this->printLine($file->getPath()); 
-		// 		rename($file->getPath(),  str_replace("scaffolding", "kasia", $file->getPath()));
-		// 	}
-		// 	// $this->printLine($filename . ' - ' . $file->isFile() . ' bytes <br/>');
-		// }
 	}
 
 	private function renameScaffoldingModule($filesAndFolders, $renamedModulePath) {
@@ -203,11 +253,12 @@ class MataCommand extends CConsoleCommand {
 		}
 	}
 
-	private function runModuleInstaller($moduleId) {
+	private function runModuleInstaller($moduleId, $registerModuleWithMata = true) {
 
 		$this->runModuleMigrationTool($moduleId);
-		$this->registerModuleWithMata($moduleId);
 
+		if ($registerModuleWithMata)
+			$this->registerModuleWithMata($moduleId);
 	}
 
 	private function registerModuleWithMata($moduleId) {
@@ -220,7 +271,7 @@ class MataCommand extends CConsoleCommand {
 			"select" => "`Order`"
 			));
 
-		$order = $order == null ? 1 : $order->Order;
+		$order = $order == null ? 1 : $order->Order + 1;
 
 		$group = new MMataModuleGroup();
 		$group->attributes = array(
@@ -339,11 +390,11 @@ class MataCommand extends CConsoleCommand {
 		return $this;
 	}
 
-	private function installModule($moduleId) {
+	private function installModule($moduleId, $registerModuleWithMata = true) {
 		$this->printLine("Checking availibility of $moduleId");
 
 		if ($this->urlExists("http://mataframework.com/modules/$moduleId.mata")) {
-			$agreeToInstall = $this->prompt("$moduleId verified. Would you like to install? (yes|no)");
+			$agreeToInstall = $this->interactive ? $this->prompt("$moduleId verified. Would you like to install? (yes|no)") : "yes";
 
 			if ($agreeToInstall == "yes") {
 				$modulesFolderPath = __DIR__ . DIRECTORY_SEPARATOR .  ".." .
@@ -370,7 +421,7 @@ class MataCommand extends CConsoleCommand {
 					}
 
 					$this->printLine("Module uncompressed. Running module installation");
-					$this->runModuleInstaller($moduleId);
+					$this->runModuleInstaller($moduleId, $registerModuleWithMata);
 
 					$this->printLine("Module $moduleId installed successfully. Have a nice day!")->emptyLine();
 				} else {
@@ -492,5 +543,3 @@ class MataCommand extends CConsoleCommand {
 		return $zip->close();
 	}
 }
-
-

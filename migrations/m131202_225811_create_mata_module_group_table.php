@@ -9,6 +9,7 @@ class m131202_225811_create_mata_module_group_table extends CDbMigration
 			'Id' => 'pk',
 			'Name' => 'varchar(64) NOT NULL',
 			'Order' => 'tinyint(2) NOT NULL',
+			'Description' => 'text'
 			));
 	}
 

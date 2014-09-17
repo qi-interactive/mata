@@ -8,11 +8,11 @@ class m131202_225812_create_mata_module_table extends CDbMigration
 		$this->createTable('matamodule', array(
 			'Id' => 'pk',
 			'Name' => 'varchar(32) NOT NULL',
-			'MataModuleGroupId' =>  'int(11)',
+			'MataModuleGroupId' =>  'tinyint(2)',
 			'Config' => 'text',
 			));
 
-		$this->addForeignKey("FK_MataModuleGroup", "matamodule", "MataModuleGroupId", "MataModuleGroup", "Id");
+		$this->addForeignKey("FK_MataModuleGroup", "matamodule", "MataModuleGroupId", "matamodulegroup", "Id");
 	}
 
 	public function safeDown()

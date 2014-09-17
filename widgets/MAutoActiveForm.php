@@ -7,6 +7,10 @@ class MAutoActiveForm extends MActiveForm {
     // like CActiveForm, but you don't need to define the body of form 
     public $model;
 
+    public $fields = array();
+
+    public $excludeFields = array();
+
     public static $coreTypes=array(
         'text'=>'textField',
         'password'=>'activePasswordField',
@@ -22,7 +26,6 @@ class MAutoActiveForm extends MActiveForm {
         'email'=>'activeEmailField',
         'number'=>'numberField',
         'range'=>'activeRangeField',
-        'date'=>'activeDateField',
         'timestamp' => array(
             "widget" => "zii.widgets.jui.CJuiDatePicker"
             )
@@ -31,7 +34,7 @@ class MAutoActiveForm extends MActiveForm {
     protected function extractType($dbType) {
         if(strncmp($dbType,'enum',4)===0)
             return 'dropdownlist';
-        else if(strpos($dbType,'timestamp')!==false || strpos($dbType,'datetime')!==false)
+        else if(strpos($dbType,'timestamp')!==false || strpos($dbType,'datetime')!==false || strpos($dbType,'date')!==false)
             return 'timestamp';
         else if(strpos($dbType,'float')!==false || strpos($dbType,'double')!==false)
             return 'double';
@@ -47,69 +50,114 @@ class MAutoActiveForm extends MActiveForm {
 
     public function run() {
 
-        foreach ($this->model->attributeNames() as $attribute) {
 
-            echo CHtml::openTag("div", array("class" => "row"));
+       foreach ($this->model->attributeNames() as $attribute) {
 
-            if (!$this->model->isAttributeSafe($attribute))
-                continue;
+           if (in_array($attribute, $this->excludeFields)) continue;
 
-            echo $this->labelEx($this->model, $attribute);
-            echo $this->error($this->model,$attribute); 
+           $preComputedFormElement = null;
+           echo CHtml::openTag("div", array("class" => "row"));
 
-            $method=self::$coreTypes[$this->extractType($this->getColumnByNameFromModel($this->model, $attribute)->dbType)];
+           if (!$this->model->isAttributeSafe($attribute))
+               continue;
 
-            if (is_array($method))
-                $this->widget($method["widget"], array(
-                    "model" => $this->model,
-                    "attribute" => $attribute
-                    ));
-            else if(strpos($method,'List')!==false)
-                echo $this->$method($this->model, $attribute, $this->getValuesForEnum($this->model, $attribute));
-            else
-                echo $this->$method($this->model, $attribute);
+           echo $this->labelEx($this->model, $attribute);
+           echo $this->error($this->model,$attribute); 
 
-            echo CHtml::closeTag("div");
+           if ($this->isForeignKey($attribute)) {
 
-        }
+               $relationName = null;
 
-        echo $this->renderSubmitButton();
+               foreach($this->model->relations() as $relationName => $relationOptions) {
 
-        parent::run();
-    }
+                   $relationSchema = $this->model->getMetaData()->relations[$relationName];
 
-    private function renderSubmitButton() {
-        echo CHtml::openTag("div", array(
-            "class" => "row buttons"
-            ));
+                   if ($relationSchema->foreignKey == $attribute) {
 
-        echo CHtml::submitButton($this->model->isNewRecord ? 'Create' : 'Save');
-        echo CHtml::closeTag("div");
-    }
+                       if (is_a($relationSchema, "CBelongsToRelation") || is_a($relationSchema, "CHasOneRelation")) {
+                           $model = $relationSchema->className;
 
-    private function getValuesForEnum($model, $columnName) {
-        $column = $this->getColumnByNameFromModel($model, $columnName);
+                         // Update Id to primaryKey, Label stays
+                           $preComputedFormElement =  $this->dropDownList($this->model, $attribute, CHtml::listData($model::model()->findAll(), "Id", "Label"));
+                           break;
+     // One value to be selected
+                       } else {
+     // multiple value selector 
+                       }
+                   }
+               }
+           }
+
+
+           if (array_key_exists($attribute, $this->fields)) {
+              $method = $this->fields[$attribute];
+          } else {
+           $method=self::$coreTypes[$this->extractType($this->getColumnByNameFromModel($this->model, $attribute)->dbType)];            
+       }
+
+       if ($preComputedFormElement != null) {
+           echo $preComputedFormElement;
+       } else {
+
+           if (is_array($method))
+               $this->widget($method["widget"], array_merge(array(
+                   "model" => $this->model,
+                   "attribute" => $attribute
+                   ), isset($method["config"]) ? $method["config"] : array()));
+           else if(strpos($method,'List')!==false)
+               echo $this->$method($this->model, $attribute, $this->getValuesForEnum($this->model, $attribute));
+           else
+               echo $this->$method($this->model, $attribute);
+
+       }
+
+       echo CHtml::closeTag("div");
+
+   }
+
+   echo $this->renderSubmitButton();
+
+   parent::run();
+}
+
+
+private function isForeignKey($attribute) {
+    return $this->getColumnByNameFromModel($this->model, $attribute)->isForeignKey;
+}
+
+
+private function renderSubmitButton() {
+    echo CHtml::openTag("div", array(
+        "class" => "row buttons"
+        ));
+
+    echo CHtml::submitButton($this->model->isNewRecord ? 'Create' : 'Save');
+    echo CHtml::closeTag("div");
+}
+
+private function getValuesForEnum($model, $columnName) {
+    $column = $this->getColumnByNameFromModel($model, $columnName);
 
         // Looks like enum('United Kingdom','United States')
-        $dbType = $column->dbType;
+    $dbType = $column->dbType;
 
-        preg_match("/enum\((.*)\)/", $dbType, $values);
-        
+    preg_match("/enum\((.*)\)/", $dbType, $values);
+
 
         // Now we have array(United Kingdom, United States);
-        $values = preg_replace("/\'/", "", $values[1]);
+    $values = preg_replace("/\'/", "", $values[1]);
 
-        $values =  explode(",", $values);
+    $values =  explode(",", $values);
 
         // now we end up having (array(United Kingdom => United States => United States))
-        return array_combine($values, $values);
-    }
+    return array_combine($values, $values);
+}
 
-    private function getColumnByNameFromModel($model, $columnName) {
-        foreach ($model->getMetaData()->columns as $cn => $column) {
-            if ($cn == $columnName)
-                return $column;
-        } 
-    }
+private function getColumnByNameFromModel($model, $columnName) {
+    foreach ($model->getMetaData()->columns as $cn => $column) {
+        if ($cn == $columnName)
+            return $column;
+    } 
+}
 
 }
