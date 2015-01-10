@@ -28,7 +28,7 @@ $this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts")
                         <?php
 
                         echo CHtml::image($assetURL . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "module-large-icon.png") .
-                        "<span class='label'>" . Yii::t(strtolower($moduleGroup->Name), $moduleGroup->Name) . "</span>";
+                        "<span class='label'>" . Yii::t(strtolower($moduleGroup->Name), Yii::app()->generateLabel($moduleGroup->Name)) . "</span>";
                         ?>
                     </a></li>
                     <?php
@@ -36,10 +36,10 @@ $this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts")
                     endif;
                     ?>
 
-                    <li class='menu-item'><a href="javascript:void(0)" data-sub-nav="<?php echo str_replace(" ", "-", strtolower($moduleGroup->Name)) ?>" >
+                    <li class='menu-item'><a href="javascript:void(0)" data-sub-nav="<?php echo strtolower($moduleGroup->Name) ?>" >
                         <?php
                         echo CHtml::image($assetURL . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "module-large-icon.png") .
-                        "<span class='label'>" . Yii::t(strtolower($moduleGroup->Name), $moduleGroup->Name) . "</span>";
+                        "<span class='label'>" . Yii::t(strtolower($moduleGroup->Name), Yii::app()->generateLabel($moduleGroup->Name)) . "</span>";
                         ?>
 
                     </a></li>
@@ -60,7 +60,7 @@ $this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts")
 
 
                 <?php foreach (MMataModuleGroup::model()->with("modules")->findAll() as $moduleGroup): ?>
-                    <div id="sub-menu-<?php echo str_replace(" ", "-", strtolower($moduleGroup->Name)) ?>" class="sub-menu">
+                    <div id="sub-menu-<?php echo strtolower($moduleGroup->Name) ?>" class="sub-menu">
                         <h2>Accounts</h2>
                         <p>Lorem ipsum dolor sit amet, consectuter adupiscig dig.</p>
                         <ul class="menu-item-container">
@@ -75,18 +75,10 @@ $this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts")
 
                                 foreach ($subNav as $label => $url):
                                     $assetURL = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias($module->Name) . DIRECTORY_SEPARATOR . "assets", false, -1, YII_DEBUG);
-                                echo "<li class='menu-item'><a href='$url'>";
-                               
-
-                               $iconLocation = $assetURL . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . str_replace(" ", "-", strtolower($label)) . "-small-icon.png";
-
-                               if (file_exists(Yii::app()->basePath .DIRECTORY_SEPARATOR . ".."  . $iconLocation)) {
-                                   echo CHtml::image($iconLocation, $moduleGroup->Name);
-                               } else {
-                                   echo "<div class='default-submenu-icon'>" . $label[0] . "</div>";
-                               }
-                               echo "<span class='label'>" . Yii::t(strtolower($module->Name), $label) .
-                               "</span></a></li>";
+                                echo "<li class='menu-item'><a href='$url'>" .
+                                CHtml::image($assetURL . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . str_replace(" ", "-", strtolower($label)) . "-small-icon.png") .
+                                "<span class='label'>" . Yii::t(strtolower($module->Name), $label) .
+                                "</span></a></li>";
                                 endforeach;
                                 ?>
                                 <?php
@@ -127,9 +119,7 @@ $this->beginContent(file_exists(Yii::getPathOfAlias("application.views.layouts")
                         })
 
                         function showSideMenu(section) {
-
                             hideSubmenu()
-
                             $("#sub-menu-" + section).addClass("active").transition({
                                 left: 100
                             });

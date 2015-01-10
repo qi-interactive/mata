@@ -85,4 +85,9 @@ class MataWebApplication extends CWebApplication {
         return $this->mataAssetUrl;
     }
 
+    public function generateLabel($name) {
+        return ucwords(trim(strtolower(str_replace(array('-','_','.'),' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $name)))));
+    }
+
+
 }

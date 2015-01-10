@@ -63,7 +63,8 @@ class MataCommand extends CConsoleCommand {
 
 		$this->printLine($modulePath);
 		rename($modulePath, str_replace("temp", $moduleName, $modulePath));
-		self::delTree($modulePath);
+		self::delTree(__DIR__ . DIRECTORY_SEPARATOR .  ".." .
+		DIRECTORY_SEPARATOR . "modules" . DIRECTORY_SEPARATOR . "scaffolding");
 	}
 
 	public static function delTree($dir) { 
